@@ -29,8 +29,6 @@ static const bool DEFAULT_SPLASHSCREEN = true;
 #define COLOR_BAREADDRESS QColor(140, 140, 140)
 /* Transaction list -- TX status decoration - open until date */
 #define COLOR_TX_STATUS_OPENUNTILDATE QColor(64, 64, 255)
-/* Transaction list -- TX status decoration - offline */
-#define COLOR_TX_STATUS_OFFLINE QColor(192, 192, 192)
 /* Transaction list -- TX status decoration - default color */
 #define COLOR_BLACK QColor(51, 51, 51)
 /* Transaction list -- TX status decoration - conflicted */
@@ -38,7 +36,7 @@ static const bool DEFAULT_SPLASHSCREEN = true;
 /* Transaction list -- TX status decoration - orphan (Light Gray #D3D3D3) */
 #define COLOR_ORPHAN QColor(211, 211, 211)
 /* Transaction list -- TX status decoration - stake (BlueViolet #8A2BE2) */
-#define COLOR_STAKE QColor(224, 126, 40)
+#define COLOR_STAKE QColor(138,43,226)
 /* Tooltips longer than this (in characters) are converted into rich text,
    so that they can be word-wrapped.
  */
@@ -50,10 +48,8 @@ static const int MAX_URI_LENGTH = 255;
 /* QRCodeDialog -- size of exported QR Code image */
 #define EXPORT_IMAGE_SIZE 256
 
-/* Number of frames in spinner animation */
-#define SPINNER_FRAMES 35
 
-#define QAPP_ORG_NAME "DogeCash"
+#define QAPP_ORG_NAME "DOGEC"
 #define QAPP_ORG_DOMAIN "dogec.io"
 #define QAPP_APP_NAME_DEFAULT "DogeCash-Qt"
 #define QAPP_APP_NAME_TESTNET "DogeCash-Qt-testnet"

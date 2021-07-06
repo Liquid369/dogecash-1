@@ -1,4 +1,6 @@
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2017-2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,7 +13,7 @@
 #include "qt/dogecash/qtutils.h"
 #include "guiinterface.h"
 
-SettingsExportCSV::SettingsExportCSV(DogeCashGUI* _window, QWidget *parent) :
+SettingsExportCSV::SettingsExportCSV(DOGECGUI* _window, QWidget *parent) :
     PWidget(_window, parent),
     ui(new Ui::SettingsExportCSV)
 {
@@ -140,7 +142,7 @@ void SettingsExportCSV::exportTxes(const QString& filename)
         writer.addColumn(tr("Label"), 0, TransactionTableModel::LabelRole);
         writer.addColumn(tr("Address"), 0, TransactionTableModel::AddressRole);
         writer.addColumn(BitcoinUnits::getAmountColumnTitle(walletModel->getOptionsModel()->getDisplayUnit()), 0, TransactionTableModel::FormattedAmountRole);
-        writer.addColumn(tr("ID"), 0, TransactionTableModel::TxIDRole);
+        writer.addColumn(tr("ID"), 0, TransactionTableModel::TxHashRole);
         fExport = writer.write();
     }
 

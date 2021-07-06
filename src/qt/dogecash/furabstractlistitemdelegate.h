@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,13 +12,12 @@
 #include "qt/dogecash/furlistrow.h"
 
 #include <QAbstractItemDelegate>
-#include <QPainter>
-#include <QObject>
-#include <QWidget>
 #include <QColor>
 #include <QModelIndex>
 #include <QObject>
 #include <QPaintEngine>
+#include <QPainter>
+#include <QWidget>
 
 QT_BEGIN_NAMESPACE
 class QModelIndex;

@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,7 +12,6 @@
 #include "qt/dogecash/furlistrow.h"
 #include "qt/dogecash/txrow.h"
 #include "bitcoinunits.h"
-#include "qt/dogecash/txrow.h"
 #include <transactionfilterproxy.h>
 
 QT_BEGIN_NAMESPACE
@@ -42,9 +44,9 @@ public:
     }
 
 private:
-    int nDisplayUnit;
-    TransactionFilterProxy *filter = nullptr;
-    TxRow* txRow = nullptr;
+    int nDisplayUnit{0};
+    TransactionFilterProxy *filter{nullptr};
+    TxRow* txRow{nullptr};
 };
 
 #endif // TXVIEWHOLDER_H

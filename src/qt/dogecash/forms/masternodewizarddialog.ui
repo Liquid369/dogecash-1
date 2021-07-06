@@ -82,6 +82,9 @@
             <height>20</height>
            </size>
           </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string/>
           </property>
@@ -504,6 +507,9 @@
                 <height>16777215</height>
                </size>
               </property>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
               <property name="text">
                <string>Intro</string>
               </property>
@@ -545,6 +551,9 @@
                 <height>16777215</height>
                </size>
               </property>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
               <property name="text">
                <string>Name</string>
               </property>
@@ -582,6 +591,9 @@
                 <width>80</width>
                 <height>16777215</height>
                </size>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
               </property>
               <property name="text">
                <string>Address</string>
@@ -701,7 +713,7 @@
           <item>
            <widget class="QLabel" name="labelMessage1a">
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To create a DogeCash Masternode you must dedicate 5.000 DOGEC (the unit of DogeCash) to the network (however, these coins are still yours and will never leave your possession). &lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;You can deactivate the node and unlock the coins at any time.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;To create a DogeCash Masternode you must dedicate 10,000 DOGEC (the unit of DOGEC) to the network (however, these coins are still yours and will never leave your possession). &lt;/p&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;You can deactivate the node and unlock the coins at any time.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignHCenter|Qt::AlignTop</set>
@@ -790,7 +802,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Set Masternode’s Name</string>
+             <string>Set Masternode Name</string>
             </property>
            </widget>
           </item>
@@ -808,7 +820,11 @@
            </spacer>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEditName"/>
+           <widget class="QLineEdit" name="lineEditName">
+            <property name="placeholderText">
+             <string notr="true">e.g. user_masternode</string>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="verticalSpacer_1_5">
@@ -829,7 +845,7 @@
           <item>
            <widget class="QLabel" name="labelMessage3">
             <property name="text">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A transaction of 5,000 DOGEC will be made&lt;/p&gt;&lt;p&gt;to a new empty address in your wallet.&lt;/p&gt;&lt;p&gt;The Address is labeled under the master node's name.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;A transaction of 10,000 DOGEC will be made&lt;/p&gt;&lt;p&gt;to a new empty address in your wallet.&lt;/p&gt;&lt;p&gt;The Address is labeled under the master node's name.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignHCenter|Qt::AlignTop</set>
@@ -873,7 +889,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Set Masternode’s IP and port</string>
+             <string>Set Masternode IP and Port</string>
             </property>
            </widget>
           </item>
@@ -933,7 +949,11 @@
            </spacer>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineEditIpAddress"/>
+           <widget class="QLineEdit" name="lineEditIpAddress">
+            <property name="placeholderText">
+             <string notr="true">e.g. 18.255.255.255</string>
+            </property>
+           </widget>
           </item>
           <item>
            <spacer name="verticalSpacer_1_8">
@@ -954,7 +974,7 @@
           <item>
            <widget class="QLabel" name="labelSubtitlePort">
             <property name="text">
-             <string>Enter Port</string>
+             <string>Enter port</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -1039,8 +1059,11 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
-           <string>CANCEL</string>
+           <string>BACK</string>
           </property>
          </widget>
         </item>
@@ -1058,8 +1081,11 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
-           <string>OK</string>
+           <string>NEXT</string>
           </property>
          </widget>
         </item>

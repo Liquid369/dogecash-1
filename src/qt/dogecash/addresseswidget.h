@@ -1,5 +1,6 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2017-2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -16,7 +17,7 @@
 
 class AddressViewDelegate;
 class TooltipMenu;
-class DogeCashGUI;
+class DOGECGUI;
 class WalletModel;
 
 namespace Ui {
@@ -32,13 +33,13 @@ class AddressesWidget : public PWidget
     Q_OBJECT
 
 public:
-    explicit AddressesWidget(DogeCashGUI* parent);
+    explicit AddressesWidget(DOGECGUI* parent);
     ~AddressesWidget();
 
     void loadWalletModel() override;
     void onNewContactClicked();
 
-private slots:
+private Q_SLOTS:
     void handleAddressClicked(const QModelIndex &index);
     void onStoreContactClicked();
     void onEditClicked();
@@ -65,7 +66,6 @@ private:
     // Cached sort type and order
     AddressTableModel::ColumnIndex sortType = AddressTableModel::Label;
     Qt::SortOrder sortOrder = Qt::AscendingOrder;
-
 
     void updateListView();
     void sortAddresses();

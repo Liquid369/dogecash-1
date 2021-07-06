@@ -131,8 +131,8 @@
         </spacer>
        </item>
        <item>
-        <widget class="QWidget" name="verticalZdogecOptionsWidget" native="true">
-         <layout class="QVBoxLayout" name="verticalZdogecOptionsLayout">
+        <widget class="QWidget" name="verticalzdogecOptionsWidget" native="true">
+         <layout class="QVBoxLayout" name="verticalzdogecOptionsLayout">
           <property name="margin">
            <number>0</number>
           </property>
@@ -511,7 +511,7 @@
          <item>
           <widget class="QValueComboBox" name="lang">
            <property name="toolTip">
-            <string>The user interface language can be set here. This setting will take effect after restarting DogeCash.</string>
+            <string>The user interface language can be set here. This setting will take effect after restarting DOGEC.</string>
            </property>
           </widget>
          </item>
@@ -533,7 +533,7 @@
          </property>
          <property name="text">
           <string>Language missing or translation incomplete? Help contributing translations here:
-https://www.transifex.com/dogecash-project/dogecash-project-translations</string>
+https://www.transifex.com/DogeCash/DogeCash-project-translations</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -561,8 +561,8 @@ https://www.transifex.com/dogecash-project/dogecash-project-translations</string
         </layout>
        </item>
        <item>
-        <widget class="QWidget" name="verticalZdogecDisplayWidget" native="true">
-         <layout class="QVBoxLayout" name="verticalZdogecDisplayLayout">
+        <widget class="QWidget" name="verticalzdogecDisplayWidget" native="true">
+         <layout class="QVBoxLayout" name="verticalzdogecDisplayLayout">
           <property name="margin">
            <number>0</number>
           </property>

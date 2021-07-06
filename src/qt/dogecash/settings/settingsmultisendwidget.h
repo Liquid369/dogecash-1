@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,7 +14,7 @@
 #include "qt/dogecash/pwidget.h"
 #include "qt/dogecash/furabstractlistitemdelegate.h"
 
-class DogeCashGUI;
+class DOGECGUI;
 
 namespace Ui {
 class SettingsMultisendWidget;
@@ -49,7 +52,7 @@ public:
     void loadWalletModel() override;
     void changeTheme(bool isLightTheme, QString &theme) override;
 
-private slots:
+private Q_SLOTS:
     void onAddRecipientClicked();
     void clearAll();
     void checkBoxChanged();

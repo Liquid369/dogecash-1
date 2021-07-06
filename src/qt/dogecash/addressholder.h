@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The PIVX developers
-// Copyright (c) 2019 The DogeCash developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -10,7 +13,8 @@
 #include <QColor>
 #include "qt/dogecash/myaddressrow.h"
 #include "qt/dogecash/furlistrow.h"
-#include "qt/guiutil.h"
+#include "guiutil.h"
+
 
 class AddressHolder : public FurListRow<QWidget*>
 {

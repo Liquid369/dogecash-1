@@ -1,9 +1,10 @@
-// Copyright (c) 2017 The PIVX developers
+// Copyright (c) 2017-2019 The PIVX developers
+// Copyright (c) 2020 The DogeCash Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef dogecash_BLOCKSIGNATURE_H
-#define dogecash_BLOCKSIGNATURE_H
+#ifndef DOGEC_BLOCKSIGNATURE_H
+#define DOGEC_BLOCKSIGNATURE_H
 
 #include "key.h"
 #include "primitives/block.h"
@@ -13,4 +14,4 @@ bool SignBlockWithKey(CBlock& block, const CKey& key);
 bool SignBlock(CBlock& block, const CKeyStore& keystore);
 bool CheckBlockSignature(const CBlock& block);
 
-#endif //dogecash_BLOCKSIGNATURE_H
+#endif //DOGEC_BLOCKSIGNATURE_H

@@ -1,4 +1,9 @@
 // Copyright (c) 2011-2013 The Bitcoin developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,6 +14,12 @@
 
 #include <QAbstractTableModel>
 #include <QStringList>
+
+#include <memory>
+
+namespace interfaces {
+    class Handler;
+}
 
 class TransactionRecord;
 class TransactionTablePriv;
@@ -47,16 +58,12 @@ public:
         WatchonlyRole,
         /** Watch-only icon */
         WatchonlyDecorationRole,
-        /** Long description (HTML format) */
-        LongDescriptionRole,
         /** Address of transaction */
         AddressRole,
         /** Label of address related to transaction */
         LabelRole,
         /** Net amount of transaction */
         AmountRole,
-        /** Unique identifier */
-        TxIDRole,
         /** Transaction hash */
         TxHashRole,
         /** Is transaction confirmed? */
@@ -65,6 +72,8 @@ public:
         FormattedAmountRole,
         /** Transaction status (TransactionRecord::Status) */
         StatusRole,
+        /** Credit amount of transaction */
+        ShieldedCreditAmountRole,
         /** Transaction size in bytes */
         SizeRole
     };
@@ -78,15 +87,19 @@ public:
     QModelIndex index(int row, int column, const QModelIndex& parent = QModelIndex()) const;
     bool processingQueuedTransactions() { return fProcessingQueuedTransactions; }
 
-signals:
+Q_SIGNALS:
     void txArrived(const QString& hash, const bool& isCoinStake, const bool& isCSAnyType);
 
 private:
-    CWallet* wallet;
-    WalletModel* walletModel;
-    QStringList columns;
-    TransactionTablePriv* priv;
-    bool fProcessingQueuedTransactions;
+    // Listeners
+    std::unique_ptr<interfaces::Handler> m_handler_transaction_changed;
+    std::unique_ptr<interfaces::Handler> m_handler_show_progress;
+
+    CWallet* wallet{nullptr};
+    WalletModel* walletModel{nullptr};
+    QStringList columns{};
+    TransactionTablePriv* priv{nullptr};
+    bool fProcessingQueuedTransactions{false};
 
     void subscribeToCoreSignals();
     void unsubscribeFromCoreSignals();
@@ -103,7 +116,7 @@ private:
     QVariant txWatchonlyDecoration(const TransactionRecord* wtx) const;
     QVariant txAddressDecoration(const TransactionRecord* wtx) const;
 
-public slots:
+public Q_SLOTS:
     /* New transaction, or transaction changed status */
     void updateTransaction(const QString& hash, int status, bool showTransaction);
     void updateConfirmations();

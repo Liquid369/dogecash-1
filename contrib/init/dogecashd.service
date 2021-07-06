@@ -8,7 +8,7 @@
 # /etc/dogecash/dogecash.conf
 
 [Unit]
-Description=dogecash daemon
+Description=DogeCash daemon
 After=network.target
 
 [Service]

@@ -57,7 +57,7 @@
           <item>
            <widget class="QLabel" name="labelTitle">
             <property name="text">
-             <string>TextLabel</string>
+             <string>Console</string>
             </property>
            </widget>
           </item>
@@ -82,8 +82,11 @@
               <height>40</height>
              </size>
             </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
             <property name="text">
-             <string>PushButton</string>
+             <string>Open Debug File</string>
             </property>
            </widget>
           </item>
@@ -101,8 +104,11 @@
               <height>40</height>
              </size>
             </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
             <property name="text">
-             <string>PushButton</string>
+             <string>Command Line Options</string>
             </property>
            </widget>
           </item>
@@ -211,7 +217,7 @@
             </property>
            </widget>
           </item>
-              <item>
+          <item>
            <widget class="QPushButton" name="pushButtonClear">
             <property name="minimumSize">
              <size>
@@ -221,12 +227,15 @@
             </property>
             <property name="maximumSize">
              <size>
-              <width>135</width>
+              <width>45</width>
               <height>45</height>
              </size>
             </property>
+            <property name="toolTip">
+             <string>Clear history</string>
+            </property>
             <property name="text">
-             <string notr="true">Clear History</string>
+             <string notr="true">-</string>
             </property>
            </widget>
           </item>

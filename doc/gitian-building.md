@@ -3,7 +3,7 @@ Gitian building
 
 *Setup instructions for a gitian build of DogeCash Core using a VM or physical system.*
 
-Gitian is the deterministic build process that is used to build the DogeCash
+Gitian is the deterministic build process that is used to build the DOGEC
 Core executables. It provides a way to be reasonably sure that the
 executables are really built from source on GitHub. It also makes sure that
 the same, tested dependencies are used and statically built into the executable.
@@ -120,7 +120,7 @@ git commit -S -a -m "Add $NAME $VERSION non-code signed signatures"
 git push --set-upstream $NAME $VERSION-not-codesigned
 ```
 
-You can also mail the files to Liquid369 (James.S@DogeC.io) and he will commit them.
+You can also mail the files to Fuzzbawls (fuzzbawls@dogec.io) and he will commit them.
 
 ```bash
 gpg --detach-sign ${VERSION}-linux/${NAME}/dogecash-linux-*-build.assert

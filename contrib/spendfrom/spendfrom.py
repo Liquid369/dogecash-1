@@ -35,9 +35,9 @@ def check_json_precision():
 def determine_db_dir():
     """Return the default location of the dogecash data directory"""
     if platform.system() == "Darwin":
-        return os.path.expanduser("~/Library/Application Support/DogeCash/")
+        return os.path.expanduser("~/Library/Application Support/DOGEC/")
     elif platform.system() == "Windows":
-        return os.path.join(os.environ['APPDATA'], "DogeCash")
+        return os.path.join(os.environ['APPDATA'], "DOGEC")
     return os.path.expanduser("~/.dogecash")
 
 def read_bitcoin_config(dbdir):

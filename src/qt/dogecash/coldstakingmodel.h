@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The PIVX developers
-// Copyright (c) 2019 The DogeCash developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -16,19 +19,19 @@
 class CSDelegation {
 public:
 
-    CSDelegation(){}
+    CSDelegation() {};
     CSDelegation(const std::string& _stakingAddress, const std::string& _ownerAddress) :
-                stakingAddress(_stakingAddress), ownerAddress(_ownerAddress), cachedTotalAmount(0) {}
+                stakingAddress(_stakingAddress), ownerAddress(_ownerAddress) {}
 
-    std::string stakingAddress;
-    std::string ownerAddress;
+    std::string stakingAddress{};
+    std::string ownerAddress{};
     /// Map of txId --> index num for stakeable utxo delegations
-    QMap<QString, int> delegatedUtxo;
+    QMap<QString, int> delegatedUtxo{};
     // Sum of all delegations to this owner address
-    CAmount cachedTotalAmount;
+    CAmount cachedTotalAmount{0};
 
     // coin owner side, set to true if it can be spend
-    bool isSpendable;
+    bool isSpendable{false};
 
     bool operator==(const CSDelegation& obj) {
         return obj.ownerAddress == ownerAddress;
@@ -67,24 +70,25 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     bool whitelist(const QModelIndex& modelIndex);
     bool blacklist(const QModelIndex& index);
+    void removeRowAndEmitDataChanged(const int idx);
     void updateCSList();
-    CAmount getTotalAmount() { return cachedAmount; }
+    CAmount getTotalAmount() const { return cachedAmount; }
 
     void refresh();
 
-public slots:
+public Q_SLOTS:
     void emitDataSetChanged();
 
 private:
     WalletModel* model = nullptr;
     TransactionTableModel* tableModel = nullptr;
     AddressTableModel* addressTableModel = nullptr;
-    CAmount cachedAmount;
 
     /**
      * List with all of the grouped delegations received by this wallet
      */
     QList<CSDelegation> cachedDelegations;
+    CAmount cachedAmount;
 
     bool parseCSDelegation(const CTxOut& out, CSDelegation& ret, const QString& txId, const int& utxoIndex);
 };

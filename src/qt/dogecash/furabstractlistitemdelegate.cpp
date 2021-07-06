@@ -1,10 +1,12 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "qt/dogecash/furabstractlistitemdelegate.h"
-#include "qt/dogecash/moc_furabstractlistitemdelegate.cpp"
 
 FurAbstractListItemDelegate::FurAbstractListItemDelegate(int _rowHeight, FurListRow<> *_row, QObject *parent) :
     QAbstractItemDelegate(parent), rowHeight(_rowHeight), row(_row){}

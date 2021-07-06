@@ -1,10 +1,13 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef DogeCash_CORE_NEW_GUI_ADDRESSFILTERPROXYMODEL_H
-#define DogeCash_CORE_NEW_GUI_ADDRESSFILTERPROXYMODEL_H
+#ifndef DOGEC_CORE_NEW_GUI_ADDRESSFILTERPROXYMODEL_H
+#define DOGEC_CORE_NEW_GUI_ADDRESSFILTERPROXYMODEL_H
 
 #include <QSortFilterProxyModel>
 #include "addresstablemodel.h"
@@ -16,7 +19,7 @@ class AddressFilterProxyModel final : public QSortFilterProxyModel
 public:
     AddressFilterProxyModel(const QString& type, QObject* parent)
             : QSortFilterProxyModel(parent)
-	        , m_types({type}) {
+            , m_types({type}) {
         init();
     }
 
@@ -45,4 +48,4 @@ private:
 };
 
 
-#endif //DogeCash_CORE_NEW_GUI_ADDRESSFILTERPROXYMODEL_H
+#endif //DOGEC_CORE_NEW_GUI_ADDRESSFILTERPROXYMODEL_H

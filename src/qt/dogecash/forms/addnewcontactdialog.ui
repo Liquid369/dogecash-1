@@ -89,7 +89,7 @@
            <string notr="true">padding-left:24px;</string>
           </property>
           <property name="text">
-           <string>TextLabel</string>
+           <string>Edit Contact</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -106,62 +106,12 @@
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>60</width>
+            <width>40</width>
             <height>20</height>
            </size>
           </property>
          </spacer>
         </item>
-        <item>
-           <widget class="QWidget" name="sortWidget" native="true">
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>22</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QComboBox" name="comboBoxSort">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>115</width>
-                 <height>0</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QComboBox" name="comboBoxSortOrder">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>75</width>
-                 <height>0</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
         <item>
          <widget class="QPushButton" name="btnEsc">
           <property name="minimumSize">
@@ -175,6 +125,9 @@
             <width>24</width>
             <height>24</height>
            </size>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
           </property>
           <property name="text">
            <string/>
@@ -213,7 +166,7 @@
         <item>
          <widget class="QLabel" name="labelMessage">
           <property name="text">
-           <string>TextLabel</string>
+           <string>Set a label for the selected address</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -245,7 +198,11 @@
            <number>10</number>
           </property>
           <item>
-           <widget class="QLineEdit" name="lineEditName"/>
+           <widget class="QLineEdit" name="lineEditName">
+            <property name="placeholderText">
+             <string>Enter a label for the address (e.g. Exchange)</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -290,6 +247,9 @@
             <height>50</height>
            </size>
           </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string>CANCEL</string>
           </property>
@@ -303,8 +263,11 @@
             <height>50</height>
            </size>
           </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
-           <string>OK</string>
+           <string>SAVE</string>
           </property>
          </widget>
         </item>

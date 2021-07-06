@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,16 +10,7 @@
 #include "qt/dogecash/settings/forms/ui_settingswalletrepairwidget.h"
 #include "qt/dogecash/qtutils.h"
 
-// Repair parameters
-const QString SALVAGEWALLET("-salvagewallet");
-const QString RESCAN("-rescan");
-const QString ZAPTXES1("-zapwallettxes=1");
-const QString ZAPTXES2("-zapwallettxes=2");
-const QString UPGRADEWALLET("-upgradewallet");
-const QString REINDEX("-reindex");
-const QString RESYNC("-resync");
-
-SettingsWalletRepairWidget::SettingsWalletRepairWidget(DogeCashGUI* _window, QWidget *parent) :
+SettingsWalletRepairWidget::SettingsWalletRepairWidget(DOGECGUI* _window, QWidget *parent) :
     PWidget(_window, parent),
     ui(new Ui::SettingsWalletRepairWidget)
 {
@@ -31,64 +25,26 @@ SettingsWalletRepairWidget::SettingsWalletRepairWidget(DogeCashGUI* _window, QWi
     // Title
     ui->labelTitle->setText(tr("Wallet Repair"));
     ui->labelTitle->setProperty("cssClass", "text-title-screen");
-
-    // Subtitle
-    ui->labelSubtitle1->setText(tr("The buttons below will restart the wallet with command-line options to repair this wallet, fix issues with corrupt blockchain files or missing/obsolete transactions."));
     ui->labelSubtitle1->setProperty("cssClass", "text-subtitle");
 
     // Labels
-    ui->labelMessageSalvage->setText(tr("Attempt to recover private keys from a corrupt wallet.dat."));
-    ui->labelMessageSalvage->setProperty("cssClass", "text-main-settings");
-
-    ui->labelMessageRescan->setText(tr("Rescan the blockchain for missing wallet transactions."));
-    ui->labelMessageRescan->setProperty("cssClass", "text-main-settings");
-
-    ui->labelMessageRecover1->setText(tr("Recover transactions from blockchain (keep-meta-data, e.g. account owner)."));
-    ui->labelMessageRecover1->setProperty("cssClass", "text-main-settings");
-
-    ui->labelMessageRecover2->setText(tr("Recover transactions from blockchain (drop meta-data)."));
-    ui->labelMessageRecover2->setProperty("cssClass", "text-main-settings");
-
-    ui->labelMessageUpgrade->setText(tr("Upgrade wallet to latest format on startup. (Note: this is NOT an update of the wallet itself)"));
-    ui->labelMessageUpgrade->setProperty("cssClass", "text-main-settings");
-
-    ui->labelMessageRebuild->setText(tr("Rebuild blockchain index from current blk000???.dat files."));
-    ui->labelMessageRebuild->setProperty("cssClass", "text-main-settings");
-
-    ui->labelMessageDelete->setText(tr("Deletes all local blockchain folders so the wallet synchronizes from scratch."));
-    ui->labelMessageDelete->setProperty("cssClass", "text-main-settings");
+    setCssProperty({ui->labelMessageSalvage, ui->labelMessageRescan, ui->labelMessageRecover1,
+                    ui->labelMessageRecover2, ui->labelMessageUpgrade, ui->labelMessageRebuild,
+                    ui->labelMessageDelete}, "text-main-settings");
 
     // Buttons
-    ui->pushButtonSalvage->setText(tr("Salvage wallet"));
-    setCssBtnPrimary(ui->pushButtonSalvage);
-
-    ui->pushButtonRescan->setText(tr("Rescan blockchain file"));
-    setCssBtnPrimary(ui->pushButtonRescan);
-
-    ui->pushButtonRecover1->setText(tr("Recover transactions 1"));
-    setCssBtnPrimary(ui->pushButtonRecover1);
-
-    ui->pushButtonRecover2->setText(tr("Recover transactions 2"));
-    setCssBtnPrimary(ui->pushButtonRecover2);
-
-    ui->pushButtonUpgrade->setText(tr("Upgrade wallet format"));
-    setCssBtnPrimary(ui->pushButtonUpgrade);
-
-    ui->pushButtonRebuild->setText(tr("Rebuild index"));
-    setCssBtnPrimary(ui->pushButtonRebuild);
-
-    ui->pushButtonDelete->setText(tr("Delete local blockchain "));
-    setCssBtnPrimary(ui->pushButtonDelete);
-
+    setCssProperty({ui->pushButtonSalvage, ui->pushButtonRescan, ui->pushButtonRecover1,
+                    ui->pushButtonRecover2, ui->pushButtonUpgrade, ui->pushButtonRebuild,
+                    ui->pushButtonDelete}, "btn-primary");
 
     // Wallet Repair Buttons
-    connect(ui->pushButtonSalvage, SIGNAL(clicked()), this, SLOT(walletSalvage()));
-    connect(ui->pushButtonRescan, SIGNAL(clicked()), this, SLOT(walletRescan()));
-    connect(ui->pushButtonRecover1, SIGNAL(clicked()), this, SLOT(walletZaptxes1()));
-    connect(ui->pushButtonRecover2, SIGNAL(clicked()), this, SLOT(walletZaptxes2()));
-    connect(ui->pushButtonUpgrade, SIGNAL(clicked()), this, SLOT(walletUpgrade()));
-    connect(ui->pushButtonRebuild, SIGNAL(clicked()), this, SLOT(walletReindex()));
-    connect(ui->pushButtonDelete, SIGNAL(clicked()), this, SLOT(walletResync()));
+    connect(ui->pushButtonSalvage, &QPushButton::clicked, this, &SettingsWalletRepairWidget::walletSalvage);
+    connect(ui->pushButtonRescan, &QPushButton::clicked, this, &SettingsWalletRepairWidget::walletRescan);
+    connect(ui->pushButtonRecover1, &QPushButton::clicked, this, &SettingsWalletRepairWidget::walletZaptxes1);
+    connect(ui->pushButtonRecover2, &QPushButton::clicked, this, &SettingsWalletRepairWidget::walletZaptxes2);
+    connect(ui->pushButtonUpgrade, &QPushButton::clicked, this, &SettingsWalletRepairWidget::walletUpgrade);
+    connect(ui->pushButtonRebuild, &QPushButton::clicked, this, &SettingsWalletRepairWidget::walletReindex);
+    connect(ui->pushButtonDelete, &QPushButton::clicked, this, &SettingsWalletRepairWidget::walletResync);
 }
 
 /** Restart wallet with "-salvagewallet" */
@@ -166,8 +122,8 @@ void SettingsWalletRepairWidget::buildParameterlist(QString arg)
     // Append repair parameter to command line.
     args.append(arg);
 
-    // Send command-line arguments to DogeCashGUI::handleRestart()
-    emit handleRestart(args);
+    // Send command-line arguments to DOGECGUI::handleRestart()
+    Q_EMIT handleRestart(args);
 }
 
 SettingsWalletRepairWidget::~SettingsWalletRepairWidget()

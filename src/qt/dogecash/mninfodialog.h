@@ -1,12 +1,15 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef MNINFODIALOG_H
 #define MNINFODIALOG_H
 
-#include <QDialog>
+#include "qt/dogecash/focuseddialog.h"
 #include "qt/dogecash/snackbar.h"
 
 class WalletModel;
@@ -15,7 +18,7 @@ namespace Ui {
 class MnInfoDialog;
 }
 
-class MnInfoDialog : public QDialog
+class MnInfoDialog : public FocusedDialog
 {
     Q_OBJECT
 
@@ -27,8 +30,8 @@ public:
 
     void setData(QString privKey, QString name, QString address, QString txId, QString outputIndex, QString status);
 
-public slots:
-    void closeDialog();
+public Q_SLOTS:
+    void reject() override;
 
 private:
     Ui::MnInfoDialog *ui;

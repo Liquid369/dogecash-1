@@ -1,24 +1,18 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
-// Copyright (c) 2015-2017 The PIVX developers
+// Copyright (c) 2015-2019 The PIVX developers
 // Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
+// file COPYING or https://www.opensource.org/licenses/mit-license.php.
 
+#include "chainparams.h"
 #include "clientversion.h"
+#include "fs.h"
 #include "init.h"
-#include "main.h"
 #include "masternodeconfig.h"
 #include "noui.h"
 #include "rpc/server.h"
-#include "guiinterface.h"
 #include "util.h"
-#include "httpserver.h"
-#include "httprpc.h"
-
-#include <boost/algorithm/string/predicate.hpp>
-#include <boost/filesystem.hpp>
-#include <boost/thread.hpp>
 
 #include <stdio.h>
 
@@ -28,8 +22,8 @@
  *
  * \section intro_sec Introduction
  *
- * This is the developer documentation of the reference client for an experimental new digital currency called dogecash (http://www.dogec.io),
- * which enables instant payments to anyone, anywhere in the world. dogecash uses peer-to-peer technology to operate
+ * This is the developer documentation of the reference client for an experimental new digital currency called DogeCash (http://www.dogec.io),
+ * which enables instant payments to anyone, anywhere in the world. DogeCash uses peer-to-peer technology to operate
  * with no central authority: managing transactions and issuing money are carried out collectively by the network.
  *
  * The software is a community-driven open source project, released under the MIT license.
@@ -63,17 +57,17 @@ bool AppInit(int argc, char* argv[])
     // Parameters
     //
     // If Qt is used, parameters/dogecash.conf are parsed in qt/dogecash.cpp's main()
-    ParseParameters(argc, argv);
+    gArgs.ParseParameters(argc, argv);
 
     // Process help and version before taking care about datadir
-    if (mapArgs.count("-?") || mapArgs.count("-help") || mapArgs.count("-version")) {
-        std::string strUsage = _("DogeCash Core Daemon") + " " + _("version") + " " + FormatFullVersion() + "\n";
+    if (gArgs.IsArgSet("-?") || gArgs.IsArgSet("-h") || gArgs.IsArgSet("-help") || gArgs.IsArgSet("-version")) {
+        std::string strUsage = _("Pivx Core Daemon") + " " + _("version") + " " + FormatFullVersion() + "\n";
 
-        if (mapArgs.count("-version")) {
+        if (gArgs.IsArgSet("-version")) {
             strUsage += LicenseInfo();
         } else {
             strUsage += "\n" + _("Usage:") + "\n" +
-                        "  dogecashd [options]                     " + _("Start DogeCash Core Daemon") + "\n";
+                        "  dogecashd [options]                     " + _("Start Pivx Core Daemon") + "\n";
 
             strUsage += "\n" + HelpMessage(HMM_BITCOIND);
         }
@@ -83,19 +77,21 @@ bool AppInit(int argc, char* argv[])
     }
 
     try {
-        if (!boost::filesystem::is_directory(GetDataDir(false))) {
-            fprintf(stderr, "Error: Specified data directory \"%s\" does not exist.\n", mapArgs["-datadir"].c_str());
+        if (!fs::is_directory(GetDataDir(false))) {
+            fprintf(stderr, "Error: Specified data directory \"%s\" does not exist.\n", gArgs.GetArg("-datadir", "").c_str());
             return false;
         }
         try {
-            ReadConfigFile(mapArgs, mapMultiArgs);
+            gArgs.ReadConfigFile();
         } catch (const std::exception& e) {
             fprintf(stderr, "Error reading configuration file: %s\n", e.what());
             return false;
         }
         // Check for -testnet or -regtest parameter (Params() calls are only valid after this clause)
-        if (!SelectParamsFromCommandLine()) {
-            fprintf(stderr, "Error: Invalid combination of -regtest and -testnet.\n");
+        try {
+            SelectParams(ChainNameFromCommandLine());
+        } catch(const std::exception& e) {
+            fprintf(stderr, "Error: %s\n", e.what());
             return false;
         }
 
@@ -106,18 +102,34 @@ bool AppInit(int argc, char* argv[])
             return false;
         }
 
-        // Command-line RPC
-        bool fCommandLine = false;
-        for (int i = 1; i < argc; i++)
-            if (!IsSwitchChar(argv[i][0]) && !boost::algorithm::istarts_with(argv[i], "dogecash:"))
-                fCommandLine = true;
+        // Error out when loose non-argument tokens are encountered on command line
+        for (int i = 1; i < argc; i++) {
+            if (!IsSwitchChar(argv[i][0])) {
+                fprintf(stderr, "Error: Command line contains unexpected token '%s', see bitcoind -h for a list of options.\n", argv[i]);
+                exit(EXIT_FAILURE);
+            }
+        }
 
-        if (fCommandLine) {
-            fprintf(stderr, "Error: There is no RPC client functionality in dogecashd anymore. Use the dogecash-cli utility instead.\n");
+        // -server defaults to true for bitcoind but not for the GUI so do this here
+        gArgs.SoftSetBoolArg("-server", true);
+        // Set this early so that parameter interactions go to console
+        InitLogging();
+        InitParameterInteraction();
+        if (!AppInitBasicSetup()) {
+            // UIError will have been called with detailed error, which ends up on console
             exit(1);
         }
+        if (!AppInitParameterInteraction()) {
+            // UIError will have been called with detailed error, which ends up on console
+            exit(1);
+        }
+        if (!AppInitSanityChecks()) {
+            // UIError will have been called with detailed error, which ends up on console
+            exit(1);
+        }
+
 #ifndef WIN32
-        fDaemon = GetBoolArg("-daemon", false);
+        fDaemon = gArgs.GetBoolArg("-daemon", false);
         if (fDaemon) {
             fprintf(stdout, "DogeCash server starting\n");
 
@@ -138,9 +150,9 @@ bool AppInit(int argc, char* argv[])
                 fprintf(stderr, "Error: setsid() returned %d errno %d\n", sid, errno);
         }
 #endif
-        SoftSetBoolArg("-server", true);
 
-        fRet = AppInit2();
+        // Set this early so that parameter interactions go to console
+        fRet = AppInitMain();
     } catch (const std::exception& e) {
         PrintExceptionContinue(&e, "AppInit()");
     } catch (...) {

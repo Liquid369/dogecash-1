@@ -1,10 +1,11 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2017-2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef DogeCash_CORE_NEW_GUI_DogeCashGUI_H
-#define DogeCash_CORE_NEW_GUI_DogeCashGUI_H
+#ifndef DOGEC_CORE_NEW_GUI_DOGECGUI_H
+#define DOGEC_CORE_NEW_GUI_DOGECGUI_H
 
 #if defined(HAVE_CONFIG_H)
 #include "config/dogecash-config.h"
@@ -21,14 +22,16 @@
 #include "qt/dogecash/send.h"
 #include "qt/dogecash/receivewidget.h"
 #include "qt/dogecash/addresseswidget.h"
-#include "qt/dogecash/privacywidget.h"
 #include "qt/dogecash/coldstakingwidget.h"
 #include "qt/dogecash/masternodeswidget.h"
-#include "qt/dogecash/governancepage.h"
 #include "qt/dogecash/snackbar.h"
 #include "qt/dogecash/settings/settingswidget.h"
+#include "qt/dogecash/settings/settingsfaqwidget.h"
 #include "qt/rpcconsole.h"
 
+namespace interfaces {
+    class Handler;
+}
 
 class ClientModel;
 class NetworkStyle;
@@ -40,15 +43,15 @@ class WalletModel;
   DogeCash GUI main class. This class represents the main window of the DogeCash UI. It communicates with both the client and
   wallet models to give the user an up-to-date view of the current core state.
 */
-class DogeCashGUI : public QMainWindow
+class DOGECGUI : public QMainWindow
 {
     Q_OBJECT
 
 public:
     static const QString DEFAULT_WALLET;
 
-    explicit DogeCashGUI(const NetworkStyle* networkStyle, QWidget* parent = 0);
-    ~DogeCashGUI();
+    explicit DOGECGUI(const NetworkStyle* networkStyle, QWidget* parent = 0);
+    ~DOGECGUI();
 
     /** Set the client model.
         The client model represents the part of the core that communicates with the P2P network, and is wallet-agnostic.
@@ -59,20 +62,20 @@ public:
     void resizeEvent(QResizeEvent *event) override;
     void showHide(bool show);
     int getNavWidth();
-signals:
+Q_SIGNALS:
     void themeChanged(bool isLightTheme, QString& theme);
     void windowResizeEvent(QResizeEvent* event);
-public slots:
+public Q_SLOTS:
     void changeTheme(bool isLightTheme);
     void goToDashboard();
     void goToSend();
     void goToReceive();
     void goToAddresses();
-    void goToPrivacy();
     void goToMasterNodes();
     void goToColdStaking();
-    void goToGovernance();
     void goToSettings();
+    void goToSettingsInfo();
+    void openNetworkMonitor();
 
     void connectActions();
 
@@ -90,7 +93,7 @@ public slots:
     void messageInfo(const QString& message);
     bool execDialog(QDialog *dialog, int xDiv = 3, int yDiv = 5);
     /** Open FAQ dialog **/
-    void openFAQ(int section = 0);
+    void openFAQ(SettingsFaqWidget::Section section = SettingsFaqWidget::Section::INTRO);
 
     /** Show incoming transaction notification for new transactions. */
     void incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address);
@@ -116,13 +119,15 @@ protected:
      */
 
 private:
+    // Handlers
+    std::unique_ptr<interfaces::Handler> m_handler_message_box;
+
     bool enableWallet;
     ClientModel* clientModel = nullptr;
 
     // Actions
     QAction* quitAction = nullptr;
     QAction* toggleHideAction = nullptr;
-
 
     // Frame
     NavMenuWidget *navMenu = nullptr;
@@ -133,10 +138,8 @@ private:
     SendWidget *sendWidget = nullptr;
     ReceiveWidget *receiveWidget = nullptr;
     AddressesWidget *addressesWidget = nullptr;
-    PrivacyWidget *privacyWidget = nullptr;
     MasterNodesWidget *masterNodesWidget = nullptr;
     ColdStakingWidget *coldStakingWidget = nullptr;
-    GovernancePage *governancePage = nullptr;
     SettingsWidget* settingsWidget = nullptr;
 
     SnackBar *snackBar = nullptr;
@@ -166,22 +169,26 @@ private:
     /** Disconnect core signals from GUI client */
     void unsubscribeFromCoreSignals();
 
-private slots:
+public Q_SLOTS:
+    /** called by a timer to check if fRequestShutdown has been set **/
+    void detectShutdown();
+
+private Q_SLOTS:
     /** Show window if hidden, unminimize when minimized, rise when obscured or show if hidden and fToggleHidden is true */
     void showNormalIfMinimized(bool fToggleHidden = false);
 
     /** Simply calls showNormalIfMinimized(true) for use in SLOT() macro */
     void toggleHidden();
 
-    /** called by a timer to check if fRequestShutdown has been set **/
-    void detectShutdown();
-
 #ifndef Q_OS_MAC
     /** Handle tray icon clicked */
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
+#else
+    /** Handle macOS Dock icon clicked */
+     void macosDockIconActivated();
 #endif
 
-signals:
+Q_SIGNALS:
     /** Signal raised when a URI was entered or dragged to the GUI */
     void receivedURI(const QString& uri);
     /** Restart handling */
@@ -190,4 +197,4 @@ signals:
 };
 
 
-#endif //DogeCash_CORE_NEW_GUI_DogeCashGUI_H
+#endif //DOGEC_CORE_NEW_GUI_DOGECGUI_H

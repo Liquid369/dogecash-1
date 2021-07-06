@@ -10,14 +10,14 @@ can be found in the contrib/init folder.
     contrib/init/dogecashd.conf:       Upstart service configuration file
     contrib/init/dogecashd.init:       CentOS compatible SysV style init script
 
-1. Service User
+Service User
 ---------------------------------
 
 All three Linux startup configurations assume the existence of a "dogecash" user
 and group.  They must be created before attempting to use these scripts.
 The macOS configuration assumes dogecashd will be set up for the current user.
 
-2. Configuration
+Configuration
 ---------------------------------
 
 At a bare minimum, dogecashd requires that the rpcpassword setting be set
@@ -35,15 +35,21 @@ it will use a special cookie file for authentication. The cookie is generated wi
 content when the daemon starts, and deleted when it exits. Read access to this file
 controls who can access it through RPC.
 
-bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'
+By default the cookie is stored in the data directory, but it's location can be overridden
+with the option '-rpccookiefile'.
 
 This allows for running dogecashd without having to do any manual configuration.
+
+`conf`, `pid`, and `wallet` accept relative paths which are interpreted as
+relative to the data directory. `wallet` *only* supports relative paths.
 
 For an example configuration file that describes the configuration settings,
 see contrib/debian/examples/dogecash.conf.
 
-3. Paths
+Paths
 ---------------------------------
+
+### Linux
 
 All three configurations assume several paths that might need to be adjusted.
 
@@ -78,23 +84,23 @@ OpenRC).
 ### macOS
 
 Binary:              `/usr/local/bin/dogecashd`
-Configuration file:  `~/Library/Application Support/DogeCash/dogecash.conf`
-Data directory:      `~/Library/Application Support/DogeCash`
-Lock file:           `~/Library/Application Support/DogeCash/.lock`
+Configuration file:  `~/Library/Application Support/DOGEC/dogecash.conf`
+Data directory:      `~/Library/Application Support/DOGEC`
+Lock file:           `~/Library/Application Support/DOGEC/.lock`
 
 Installing Service Configuration
 -----------------------------------
 
-4a) systemd
+### systemd
 
-Installing this .service file consists on just copying it to
+Installing this .service file consists of just copying it to
 /usr/lib/systemd/system directory, followed by the command
-"systemctl daemon-reload" in order to update running systemd configuration.
+`systemctl daemon-reload` in order to update running systemd configuration.
 
 To test, run `systemctl start dogecashd` and to enable for system startup run
 `systemctl enable dogecashd`
 
-4b) OpenRC
+NOTE: When installing for systemd in Debian/Ubuntu the .service file needs to be copied to the /lib/systemd/system directory instead.
 
 ### OpenRC
 
@@ -103,7 +109,7 @@ check ownership and permissions and make it executable.  Test it with
 `/etc/init.d/dogecashd start` and configure it to run on startup with
 `rc-update add dogecashd`
 
-4c) Upstart (for Debian/Ubuntu based distributions)
+### Upstart (for Debian/Ubuntu based distributions)
 
 Upstart is the default init system for Debian/Ubuntu versions older than 15.04. If you are using version 15.04 or newer and haven't manually configured upstart you should follow the systemd instructions instead.
 
@@ -111,14 +117,14 @@ Drop dogecashd.conf in /etc/init.  Test by running `service dogecashd start`
 it will automatically start on reboot.
 
 NOTE: This script is incompatible with CentOS 5 and Amazon Linux 2014 as they
-use old versions of Upstart and do not supply the start-stop-daemon uitility.
+use old versions of Upstart and do not supply the start-stop-daemon utility.
 
-4d) CentOS
+### CentOS
 
 Copy dogecashd.init to /etc/init.d/dogecashd. Test by running `service dogecashd start`.
 
 Using this script, you can adjust the path and flags to the dogecashd program by
-setting the DogeCashD and FLAGS environment variables in the file
+setting the DOGECD and FLAGS environment variables in the file
 /etc/sysconfig/dogecashd. You can also use the DAEMONOPTS environment variable here.
 
 ### macOS

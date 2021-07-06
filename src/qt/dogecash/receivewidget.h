@@ -1,5 +1,6 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2017-2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -15,7 +16,7 @@
 #include <QWidget>
 #include <QPixmap>
 
-class DogeCashGUI;
+class DOGECGUI;
 class SendCoinsRecipient;
 
 namespace Ui {
@@ -31,17 +32,17 @@ class ReceiveWidget : public PWidget
     Q_OBJECT
 
 public:
-    explicit ReceiveWidget(DogeCashGUI* parent);
+    explicit ReceiveWidget(DOGECGUI* parent);
     ~ReceiveWidget();
 
     void loadWalletModel() override;
 
-public slots:
+public Q_SLOTS:
     void onRequestClicked();
     void onMyAddressesClicked();
     void onNewAddressClicked();
 
-private slots:
+private Q_SLOTS:
     void changeTheme(bool isLightTheme, QString &theme) override ;
     void onLabelClicked();
     void onCopyClicked();
@@ -50,33 +51,33 @@ private slots:
     void handleAddressClicked(const QModelIndex &index);
     void onSortChanged(int idx);
     void onSortOrderChanged(int idx);
-
 private:
-    Ui::ReceiveWidget *ui;
+    Ui::ReceiveWidget *ui{nullptr};
 
-    FurAbstractListItemDelegate *delegate;
-    AddressTableModel* addressTableModel = nullptr;
-    AddressFilterProxyModel *filter = nullptr;
+    FurAbstractListItemDelegate *delegate{nullptr};
+    AddressTableModel* addressTableModel{nullptr};
+    AddressFilterProxyModel *filter{nullptr};
 
-    QSpacerItem *spacer = nullptr;
+    QSpacerItem *spacer{nullptr};
 
     // Cached last address
-    SendCoinsRecipient *info = nullptr;
+    SendCoinsRecipient *info{nullptr};
     // Cached qr
-    QPixmap *qrImage = nullptr;
+    QPixmap *qrImage{nullptr};
 
     // Cached sort type and order
     AddressTableModel::ColumnIndex sortType = AddressTableModel::Label;
     Qt::SortOrder sortOrder = Qt::AscendingOrder;
 
-
-    void updateQr(QString address);
+    void updateQr(QString& address);
     void updateLabel();
     void showAddressGenerationDialog(bool isPaymentRequest);
     void sortAddresses();
+    void onTransparentSelected(bool transparentSelected);
 
-
-    bool isShowingDialog = false;
+    bool isShowingDialog{false};
+    // Whether the main section is presenting a shielded address or a regular one
+    bool shieldedMode{false};
 
 };
 

@@ -1,5 +1,6 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2017-2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,77 +10,78 @@
 #include "macdockiconhandler.h"
 #endif
 
-#include <qt/guiutil.h>
+#include "qt/guiutil.h"
 #include "clientmodel.h"
+#include "interfaces/handler.h"
 #include "optionsmodel.h"
 #include "networkstyle.h"
 #include "notificator.h"
 #include "guiinterface.h"
 #include "qt/dogecash/qtutils.h"
 #include "qt/dogecash/defaultdialog.h"
-#include "qt/dogecash/settings/settingsfaqwidget.h"
 
-#include <QDesktopWidget>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
+#include "init.h"
+#include "util.h"
+
 #include <QApplication>
 #include <QColor>
-#include <QShortcut>
+#include <QHBoxLayout>
 #include <QKeySequence>
+#include <QScreen>
+#include <QShortcut>
+#include <QWindowStateChangeEvent>
 
-#include "util.h"
 
 #define BASE_WINDOW_WIDTH 1200
 #define BASE_WINDOW_HEIGHT 740
 #define BASE_WINDOW_MIN_HEIGHT 620
+#define BASE_WINDOW_MIN_WIDTH 1100
 
-const QString DogeCashGUI::DEFAULT_WALLET = "~Default";
 
-DogeCashGUI::DogeCashGUI(const NetworkStyle* networkStyle, QWidget* parent) :
+const QString DOGECGUI::DEFAULT_WALLET = "~Default";
+
+DOGECGUI::DOGECGUI(const NetworkStyle* networkStyle, QWidget* parent) :
         QMainWindow(parent),
         clientModel(0){
 
     /* Open CSS when configured */
     this->setStyleSheet(GUIUtil::loadStyleSheet());
-    this->setMinimumSize(BASE_WINDOW_WIDTH, BASE_WINDOW_MIN_HEIGHT);
+    this->setMinimumSize(BASE_WINDOW_MIN_WIDTH, BASE_WINDOW_MIN_HEIGHT);
+
+
     // Adapt screen size
-    QRect rec = QApplication::desktop()->screenGeometry();
+    QRect rec = QGuiApplication::primaryScreen()->geometry();
     int adaptedHeight = (rec.height() < BASE_WINDOW_HEIGHT) ?  BASE_WINDOW_MIN_HEIGHT : BASE_WINDOW_HEIGHT;
+    int adaptedWidth = (rec.width() < BASE_WINDOW_WIDTH) ?  BASE_WINDOW_MIN_WIDTH : BASE_WINDOW_WIDTH;
     GUIUtil::restoreWindowGeometry(
             "nWindow",
-            QSize(BASE_WINDOW_WIDTH, adaptedHeight),
+            QSize(adaptedWidth, adaptedHeight),
             this
-            );
-        
+    );
 
 #ifdef ENABLE_WALLET
     /* if compiled with wallet support, -disablewallet can still disable the wallet */
-    enableWallet = !GetBoolArg("-disablewallet", false);
+    enableWallet = !gArgs.GetBoolArg("-disablewallet", false);
 #else
     enableWallet = false;
 #endif // ENABLE_WALLET
 
-    QString windowTitle = tr("DogeCash Core") + " - ";
-    windowTitle += ((enableWallet) ? tr("Wallet") : tr("Node"));
+    QString windowTitle = QString::fromStdString(gArgs.GetArg("-windowtitle", ""));
+    if (windowTitle.isEmpty()) {
+        windowTitle = tr("DogeCash Core") + " - ";
+        windowTitle += ((enableWallet) ? tr("Wallet") : tr("Node"));
+    }
     windowTitle += " " + networkStyle->getTitleAddText();
     setWindowTitle(windowTitle);
 
-#ifndef Q_OS_MAC
     QApplication::setWindowIcon(networkStyle->getAppIcon());
     setWindowIcon(networkStyle->getAppIcon());
-#else
-    MacDockIconHandler::instance()->setIcon(networkStyle->getAppIcon());
-#endif
-
-
-
 
 #ifdef ENABLE_WALLET
     // Create wallet frame
-    if(enableWallet){
-
+    if (enableWallet) {
         QFrame* centralWidget = new QFrame(this);
-        this->setMinimumWidth(BASE_WINDOW_WIDTH);
+        this->setMinimumWidth(BASE_WINDOW_MIN_WIDTH);
         this->setMinimumHeight(BASE_WINDOW_MIN_HEIGHT);
         QHBoxLayout* centralWidgetLayouot = new QHBoxLayout();
         centralWidget->setLayout(centralWidgetLayouot);
@@ -126,7 +128,6 @@ DogeCashGUI::DogeCashGUI(const NetworkStyle* networkStyle, QWidget* parent) :
         addressesWidget = new AddressesWidget(this);
         masterNodesWidget = new MasterNodesWidget(this);
         coldStakingWidget = new ColdStakingWidget(this);
-        governancePage = new GovernancePage(this);
         settingsWidget = new SettingsWidget(this);
 
         // Add to parent
@@ -136,7 +137,6 @@ DogeCashGUI::DogeCashGUI(const NetworkStyle* networkStyle, QWidget* parent) :
         stackedContainer->addWidget(addressesWidget);
         stackedContainer->addWidget(masterNodesWidget);
         stackedContainer->addWidget(coldStakingWidget);
-        stackedContainer->addWidget(governancePage);
         stackedContainer->addWidget(settingsWidget);
         stackedContainer->setCurrentWidget(dashboard);
 
@@ -167,7 +167,8 @@ DogeCashGUI::DogeCashGUI(const NetworkStyle* networkStyle, QWidget* parent) :
 
 }
 
-void DogeCashGUI::createActions(const NetworkStyle* networkStyle){
+void DOGECGUI::createActions(const NetworkStyle* networkStyle)
+{
     toggleHideAction = new QAction(networkStyle->getAppIcon(), tr("&Show / Hide"), this);
     toggleHideAction->setStatusTip(tr("Show or hide the main Window"));
 
@@ -176,14 +177,15 @@ void DogeCashGUI::createActions(const NetworkStyle* networkStyle){
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
     quitAction->setMenuRole(QAction::QuitRole);
 
-    connect(toggleHideAction, SIGNAL(triggered()), this, SLOT(toggleHidden()));
-    connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+    connect(toggleHideAction, &QAction::triggered, this, &DOGECGUI::toggleHidden);
+    connect(quitAction, &QAction::triggered, qApp, &QApplication::quit);
 }
 
 /**
  * Here add every event connection
  */
-void DogeCashGUI::connectActions() {
+void DOGECGUI::connectActions()
+{
     QShortcut *consoleShort = new QShortcut(this);
     consoleShort->setKey(QKeySequence(SHORT_KEY + Qt::Key_C));
     connect(consoleShort, &QShortcut::activated, [this](){
@@ -191,22 +193,23 @@ void DogeCashGUI::connectActions() {
         settingsWidget->showDebugConsole();
         goToSettings();
     });
-    connect(topBar, &TopBar::showHide, this, &DogeCashGUI::showHide);
-    connect(topBar, &TopBar::themeChanged, this, &DogeCashGUI::changeTheme);
+    connect(topBar, &TopBar::showHide, this, &DOGECGUI::showHide);
+    connect(topBar, &TopBar::themeChanged, this, &DOGECGUI::changeTheme);
     connect(topBar, &TopBar::onShowHideColdStakingChanged, navMenu, &NavMenuWidget::onShowHideColdStakingChanged);
-    connect(settingsWidget, &SettingsWidget::showHide, this, &DogeCashGUI::showHide);
-    connect(sendWidget, &SendWidget::showHide, this, &DogeCashGUI::showHide);
-    connect(receiveWidget, &ReceiveWidget::showHide, this, &DogeCashGUI::showHide);
-    connect(addressesWidget, &AddressesWidget::showHide, this, &DogeCashGUI::showHide);
-    connect(masterNodesWidget, &MasterNodesWidget::showHide, this, &DogeCashGUI::showHide);
-    connect(masterNodesWidget, &MasterNodesWidget::execDialog, this, &DogeCashGUI::execDialog);
-    connect(coldStakingWidget, &ColdStakingWidget::showHide, this, &DogeCashGUI::showHide);
-    connect(coldStakingWidget, &ColdStakingWidget::execDialog, this, &DogeCashGUI::execDialog);
-    connect(settingsWidget, &SettingsWidget::execDialog, this, &DogeCashGUI::execDialog);
+    connect(settingsWidget, &SettingsWidget::showHide, this, &DOGECGUI::showHide);
+    connect(sendWidget, &SendWidget::showHide, this, &DOGECGUI::showHide);
+    connect(receiveWidget, &ReceiveWidget::showHide, this, &DOGECGUI::showHide);
+    connect(addressesWidget, &AddressesWidget::showHide, this, &DOGECGUI::showHide);
+    connect(masterNodesWidget, &MasterNodesWidget::showHide, this, &DOGECGUI::showHide);
+    connect(masterNodesWidget, &MasterNodesWidget::execDialog, this, &DOGECGUI::execDialog);
+    connect(coldStakingWidget, &ColdStakingWidget::showHide, this, &DOGECGUI::showHide);
+    connect(coldStakingWidget, &ColdStakingWidget::execDialog, this, &DOGECGUI::execDialog);
+    connect(settingsWidget, &SettingsWidget::execDialog, this, &DOGECGUI::execDialog);
 }
 
 
-void DogeCashGUI::createTrayIcon(const NetworkStyle* networkStyle) {
+void DOGECGUI::createTrayIcon(const NetworkStyle* networkStyle)
+{
 #ifndef Q_OS_MAC
     trayIcon = new QSystemTrayIcon(this);
     QString toolTip = tr("DogeCash Core client") + " " + networkStyle->getTitleAddText();
@@ -217,8 +220,8 @@ void DogeCashGUI::createTrayIcon(const NetworkStyle* networkStyle) {
     notificator = new Notificator(QApplication::applicationName(), trayIcon, this);
 }
 
-//
-DogeCashGUI::~DogeCashGUI() {
+DOGECGUI::~DOGECGUI()
+{
     // Unsubscribe from notifications from core
     unsubscribeFromCoreSignals();
 
@@ -232,16 +235,17 @@ DogeCashGUI::~DogeCashGUI() {
 
 
 /** Get restart command-line parameters and request restart */
-void DogeCashGUI::handleRestart(QStringList args){
+void DOGECGUI::handleRestart(QStringList args)
+{
     if (!ShutdownRequested())
-        emit requestedRestart(args);
+        Q_EMIT requestedRestart(args);
 }
 
 
-void DogeCashGUI::setClientModel(ClientModel* clientModel) {
-    this->clientModel = clientModel;
-    if(this->clientModel) {
-
+void DOGECGUI::setClientModel(ClientModel* _clientModel)
+{
+    this->clientModel = _clientModel;
+    if (this->clientModel) {
         // Create system tray menu (or setup the dock menu) that late to prevent users from calling actions,
         // while the client has not yet fully loaded
         createTrayIconMenu();
@@ -252,13 +256,15 @@ void DogeCashGUI::setClientModel(ClientModel* clientModel) {
         settingsWidget->setClientModel(clientModel);
 
         // Receive and report messages from client model
-        connect(clientModel, SIGNAL(message(QString, QString, unsigned int)), this, SLOT(message(QString, QString, unsigned int)));
-        connect(topBar, SIGNAL(walletSynced(bool)), dashboard, SLOT(walletSynced(bool)));
-        connect(topBar, SIGNAL(walletSynced(bool)), coldStakingWidget, SLOT(walletSynced(bool)));
+        connect(clientModel, &ClientModel::message, this, &DOGECGUI::message);
+        connect(clientModel, &ClientModel::alertsChanged, [this](const QString& _alertStr) {
+            message(tr("Alert!"), _alertStr, CClientUIInterface::MSG_WARNING);
+        });
+        connect(topBar, &TopBar::walletSynced, dashboard, &DashboardWidget::walletSynced);
+        connect(topBar, &TopBar::walletSynced, coldStakingWidget, &ColdStakingWidget::walletSynced);
 
         // Get restart command-line parameters and handle restart
         connect(settingsWidget, &SettingsWidget::handleRestart, [this](QStringList arg){handleRestart(arg);});
-        
 
         if (rpcConsole) {
             rpcConsole->setClientModel(clientModel);
@@ -277,45 +283,53 @@ void DogeCashGUI::setClientModel(ClientModel* clientModel) {
     }
 }
 
-void DogeCashGUI::createTrayIconMenu() {
+void DOGECGUI::createTrayIconMenu()
+{
 #ifndef Q_OS_MAC
-    // return if trayIcon is unset (only on non-Mac OSes)
+    // return if trayIcon is unset (only on non-macOSes)
     if (!trayIcon)
         return;
 
     trayIconMenu = new QMenu(this);
     trayIcon->setContextMenu(trayIconMenu);
 
-    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-            this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
+    connect(trayIcon, &QSystemTrayIcon::activated, this, &DOGECGUI::trayIconActivated);
 #else
-    // Note: On Mac, the dock icon is used to provide the tray's functionality.
+    // Note: On macOS, the Dock icon is used to provide the tray's functionality.
     MacDockIconHandler* dockIconHandler = MacDockIconHandler::instance();
-    dockIconHandler->setMainWindow((QMainWindow*)this);
-    trayIconMenu = dockIconHandler->dockMenu();
+    connect(dockIconHandler, &MacDockIconHandler::dockIconClicked, this, &DOGECGUI::macosDockIconActivated);
+
+    trayIconMenu = new QMenu(this);
+    trayIconMenu->setAsDockMenu();
 #endif
 
-    // Configuration of the tray icon (or dock icon) icon menu
+    // Configuration of the tray icon (or Dock icon) icon menu
     trayIconMenu->addAction(toggleHideAction);
     trayIconMenu->addSeparator();
 
-#ifndef Q_OS_MAC // This is built-in on Mac
+#ifndef Q_OS_MAC // This is built-in on macOS
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(quitAction);
 #endif
 }
 
 #ifndef Q_OS_MAC
-void DogeCashGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
+void DOGECGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if (reason == QSystemTrayIcon::Trigger) {
         // Click on system tray icon triggers show/hide of the main window
         toggleHidden();
     }
 }
+#else
+void DOGECGUI::macosDockIconActivated()
+ {
+     show();
+     activateWindow();
+ }
 #endif
 
-void DogeCashGUI::changeEvent(QEvent* e)
+void DOGECGUI::changeEvent(QEvent* e)
 {
     QMainWindow::changeEvent(e);
 #ifndef Q_OS_MAC // Ignored on Mac
@@ -323,7 +337,7 @@ void DogeCashGUI::changeEvent(QEvent* e)
         if (clientModel && clientModel->getOptionsModel() && clientModel->getOptionsModel()->getMinimizeToTray()) {
             QWindowStateChangeEvent* wsevt = static_cast<QWindowStateChangeEvent*>(e);
             if (!(wsevt->oldState() & Qt::WindowMinimized) && isMinimized()) {
-                QTimer::singleShot(0, this, SLOT(hide()));
+                QTimer::singleShot(0, this, &DOGECGUI::hide);
                 e->ignore();
             }
         }
@@ -331,7 +345,7 @@ void DogeCashGUI::changeEvent(QEvent* e)
 #endif
 }
 
-void DogeCashGUI::closeEvent(QCloseEvent* event)
+void DOGECGUI::closeEvent(QCloseEvent* event)
 {
 #ifndef Q_OS_MAC // Ignored on Mac
     if (clientModel && clientModel->getOptionsModel()) {
@@ -344,15 +358,17 @@ void DogeCashGUI::closeEvent(QCloseEvent* event)
 }
 
 
-void DogeCashGUI::messageInfo(const QString& text){
-    if(!this->snackBar) this->snackBar = new SnackBar(this, this);
+void DOGECGUI::messageInfo(const QString& text)
+{
+    if (!this->snackBar) this->snackBar = new SnackBar(this, this);
     this->snackBar->setText(text);
     this->snackBar->resize(this->width(), snackBar->height());
     openDialog(this->snackBar, this);
 }
 
 
-void DogeCashGUI::message(const QString& title, const QString& message, unsigned int style, bool* ret) {
+void DOGECGUI::message(const QString& title, const QString& message, unsigned int style, bool* ret)
+{
     QString strTitle =  tr("DogeCash Core"); // default title
     // Default to information icon
     int nNotifyIcon = Notificator::Information;
@@ -391,26 +407,27 @@ void DogeCashGUI::message(const QString& title, const QString& message, unsigned
         // Check for buttons, use OK as default, if none was supplied
         int r = 0;
         showNormalIfMinimized();
-        if(style & CClientUIInterface::BTN_MASK){
+        if (style & CClientUIInterface::BTN_MASK) {
             r = openStandardDialog(
                     (title.isEmpty() ? strTitle : title), message, "OK", "CANCEL"
                 );
-        }else{
+        } else {
             r = openStandardDialog((title.isEmpty() ? strTitle : title), message, "OK");
         }
         if (ret != NULL)
             *ret = r;
-    } else if(style & CClientUIInterface::MSG_INFORMATION_SNACK){
+    } else if (style & CClientUIInterface::MSG_INFORMATION_SNACK) {
         messageInfo(message);
-    }else {
+    } else {
         // Append title to "DogeCash - "
         if (!msgType.isEmpty())
             strTitle += " - " + msgType;
-        notificator->notify((Notificator::Class) nNotifyIcon, strTitle, message);
+        notificator->notify(static_cast<Notificator::Class>(nNotifyIcon), strTitle, message);
     }
 }
 
-bool DogeCashGUI::openStandardDialog(QString title, QString body, QString okBtn, QString cancelBtn){
+bool DOGECGUI::openStandardDialog(QString title, QString body, QString okBtn, QString cancelBtn)
+{
     DefaultDialog *dialog;
     if (isVisible()) {
         showHide(true);
@@ -432,28 +449,24 @@ bool DogeCashGUI::openStandardDialog(QString title, QString body, QString okBtn,
 }
 
 
-void DogeCashGUI::showNormalIfMinimized(bool fToggleHidden) {
+void DOGECGUI::showNormalIfMinimized(bool fToggleHidden)
+{
     if (!clientModel)
         return;
-    // activateWindow() (sometimes) helps with keyboard focus on Windows
-    if (isHidden()) {
-        show();
-        activateWindow();
-    } else if (isMinimized()) {
-        showNormal();
-        activateWindow();
-    } else if (GUIUtil::isObscured(this)) {
-        raise();
-        activateWindow();
-    } else if (fToggleHidden)
+    if (!isHidden() && !isMinimized() && !GUIUtil::isObscured(this) && fToggleHidden) {
         hide();
+    } else {
+        GUIUtil::bringToFront(this);
+    }
 }
 
-void DogeCashGUI::toggleHidden() {
+void DOGECGUI::toggleHidden()
+{
     showNormalIfMinimized(true);
 }
 
-void DogeCashGUI::detectShutdown() {
+void DOGECGUI::detectShutdown()
+{
     if (ShutdownRequested()) {
         if (rpcConsole)
             rpcConsole->hide();
@@ -461,86 +474,101 @@ void DogeCashGUI::detectShutdown() {
     }
 }
 
-void DogeCashGUI::goToDashboard(){
-    if(stackedContainer->currentWidget() != dashboard){
+void DOGECGUI::goToDashboard()
+{
+    if (stackedContainer->currentWidget() != dashboard) {
         stackedContainer->setCurrentWidget(dashboard);
         topBar->showBottom();
     }
 }
 
-void DogeCashGUI::goToSend(){
+void DOGECGUI::goToSend()
+{
     showTop(sendWidget);
 }
 
-void DogeCashGUI::goToAddresses(){
+void DOGECGUI::goToAddresses()
+{
     showTop(addressesWidget);
 }
 
-void DogeCashGUI::goToPrivacy(){
-    if (privacyWidget) showTop(privacyWidget);
-}
-
-void DogeCashGUI::goToMasterNodes(){
+void DOGECGUI::goToMasterNodes()
+{
     showTop(masterNodesWidget);
 }
 
-void DogeCashGUI::goToColdStaking(){
+void DOGECGUI::goToColdStaking()
+{
     showTop(coldStakingWidget);
 }
 
-void DogeCashGUI::goToGovernance(){
-    showTop(governancePage);
-}
-
-void DogeCashGUI::goToSettings(){
+void DOGECGUI::goToSettings(){
     showTop(settingsWidget);
 }
 
-void DogeCashGUI::goToReceive(){
+void DOGECGUI::goToSettingsInfo()
+{
+    navMenu->selectSettings();
+    settingsWidget->showInformation();
+    goToSettings();
+}
+
+void DOGECGUI::goToReceive()
+{
     showTop(receiveWidget);
 }
 
-void DogeCashGUI::showTop(QWidget* view){
-    if(stackedContainer->currentWidget() != view){
+void DOGECGUI::openNetworkMonitor()
+{
+    settingsWidget->openNetworkMonitor();
+}
+
+void DOGECGUI::showTop(QWidget* view)
+{
+    if (stackedContainer->currentWidget() != view) {
         stackedContainer->setCurrentWidget(view);
         topBar->showTop();
     }
 }
 
-void DogeCashGUI::changeTheme(bool isLightTheme){
+void DOGECGUI::changeTheme(bool isLightTheme)
+{
 
     QString css = GUIUtil::loadStyleSheet();
     this->setStyleSheet(css);
 
     // Notify
-    emit themeChanged(isLightTheme, css);
+    Q_EMIT themeChanged(isLightTheme, css);
 
     // Update style
     updateStyle(this);
 }
 
-void DogeCashGUI::resizeEvent(QResizeEvent* event){
+void DOGECGUI::resizeEvent(QResizeEvent* event)
+{
     // Parent..
     QMainWindow::resizeEvent(event);
     // background
     showHide(opEnabled);
     // Notify
-    emit windowResizeEvent(event);
+    Q_EMIT windowResizeEvent(event);
 }
 
-bool DogeCashGUI::execDialog(QDialog *dialog, int xDiv, int yDiv){
+bool DOGECGUI::execDialog(QDialog *dialog, int xDiv, int yDiv)
+{
     return openDialogWithOpaqueBackgroundY(dialog, this);
 }
 
-void DogeCashGUI::showHide(bool show){
-    if(!op) op = new QLabel(this);
-    if(!show){
+void DOGECGUI::showHide(bool show)
+{
+    if (!op) op = new QLabel(this);
+    if (!show) {
         op->setVisible(false);
         opEnabled = false;
-    }else{
+    } else {
         QColor bg("#000000");
         bg.setAlpha(200);
-        if(!isLightTheme()){
+        if (!isLightTheme()) {
             bg = QColor("#00000000");
             bg.setAlpha(150);
         }
@@ -559,29 +587,27 @@ void DogeCashGUI::showHide(bool show){
     }
 }
 
-int DogeCashGUI::getNavWidth(){
+int DOGECGUI::getNavWidth()
+{
     return this->navMenu->width();
 }
 
-void DogeCashGUI::openFAQ(int section){
+void DOGECGUI::openFAQ(SettingsFaqWidget::Section section)
+{
     showHide(true);
     SettingsFaqWidget* dialog = new SettingsFaqWidget(this);
-    if (section > 0) dialog->setSection(section);
+    dialog->setSection(section);
     openDialogWithOpaqueBackgroundFullScreen(dialog, this);
     dialog->deleteLater();
 }
 
 
 #ifdef ENABLE_WALLET
-bool DogeCashGUI::addWallet(const QString& name, WalletModel* walletModel)
+bool DOGECGUI::addWallet(const QString& name, WalletModel* walletModel)
 {
     // Single wallet supported for now..
-    if(!stackedContainer || !clientModel || !walletModel)
+    if (!stackedContainer || !clientModel || !walletModel)
         return false;
-
-    // todo: show out of sync warning..
-    // todo: complete this next method
-    //connect(walletView, SIGNAL(showNormalIfMinimized()), gui, SLOT(showNormalIfMinimized()));
 
     // set the model for every view
     navMenu->setWalletModel(walletModel);
@@ -592,46 +618,39 @@ bool DogeCashGUI::addWallet(const QString& name, WalletModel* walletModel)
     addressesWidget->setWalletModel(walletModel);
     masterNodesWidget->setWalletModel(walletModel);
     coldStakingWidget->setWalletModel(walletModel);
-    governancePage->setWalletModel(walletModel);
     settingsWidget->setWalletModel(walletModel);
 
-    // Privacy screen
-    if (walletModel->getZerocoinBalance() > 0) {
-        privacyWidget = new PrivacyWidget(this);
-        stackedContainer->addWidget(privacyWidget);
-
-        privacyWidget->setWalletModel(walletModel);
-        connect(privacyWidget, &PrivacyWidget::message, this, &DogeCashGUI::message);
-        connect(privacyWidget, &PrivacyWidget::showHide, this, &DogeCashGUI::showHide);
-    }
-
     // Connect actions..
-    connect(masterNodesWidget, &MasterNodesWidget::message, this, &DogeCashGUI::message);
-    connect(topBar, &TopBar::message, this, &DogeCashGUI::message);
-    connect(sendWidget, &SendWidget::message,this, &DogeCashGUI::message);
-    connect(receiveWidget, &ReceiveWidget::message,this, &DogeCashGUI::message);
-    connect(addressesWidget, &AddressesWidget::message,this, &DogeCashGUI::message);
-    connect(coldStakingWidget, &ColdStakingWidget::message, this, &DogeCashGUI::message);
-    connect(settingsWidget, &SettingsWidget::message, this, &DogeCashGUI::message);
+    connect(walletModel, &WalletModel::message, this, &DOGECGUI::message);
+    connect(masterNodesWidget, &MasterNodesWidget::message, this, &DOGECGUI::message);
+    connect(coldStakingWidget, &ColdStakingWidget::message, this, &DOGECGUI::message);
+    connect(topBar, &TopBar::message, this, &DOGECGUI::message);
+    connect(sendWidget, &SendWidget::message,this, &DOGECGUI::message);
+    connect(receiveWidget, &ReceiveWidget::message,this, &DOGECGUI::message);
+    connect(addressesWidget, &AddressesWidget::message,this, &DOGECGUI::message);
+    connect(settingsWidget, &SettingsWidget::message, this, &DOGECGUI::message);
 
     // Pass through transaction notifications
-    connect(dashboard, SIGNAL(incomingTransaction(QString, int, CAmount, QString, QString)), this, SLOT(incomingTransaction(QString, int, CAmount, QString, QString)));
+    connect(dashboard, &DashboardWidget::incomingTransaction, this, &DOGECGUI::incomingTransaction);
 
     return true;
 }
 
-bool DogeCashGUI::setCurrentWallet(const QString& name) {
+bool DOGECGUI::setCurrentWallet(const QString& name)
+{
     // Single wallet supported.
     return true;
 }
 
-void DogeCashGUI::removeAllWallets() {
+void DOGECGUI::removeAllWallets()
+{
     // Single wallet supported.
 }
 
-void DogeCashGUI::incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address) {
+void DOGECGUI::incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address)
+{
     // Only send notifications when not disabled
-    if(!bdisableSystemnotifications){
+    if (!bdisableSystemnotifications) {
         // On new transaction, make an info balloon
         message((amount) < 0 ? (pwalletMain->fMultiSendNotify == true ? tr("Sent MultiSend transaction") : tr("Sent transaction")) : tr("Incoming transaction"),
             tr("Date: %1\n"
@@ -651,7 +670,7 @@ void DogeCashGUI::incomingTransaction(const QString& date, int unit, const CAmou
 #endif // ENABLE_WALLET
 
 
-static bool ThreadSafeMessageBox(DogeCashGUI* gui, const std::string& message, const std::string& caption, unsigned int style)
+static bool ThreadSafeMessageBox(DOGECGUI* gui, const std::string& message, const std::string& caption, unsigned int style)
 {
     bool modal = (style & CClientUIInterface::MODAL);
     // The SECURE flag has no effect in the Qt GUI.
@@ -670,14 +689,14 @@ static bool ThreadSafeMessageBox(DogeCashGUI* gui, const std::string& message, c
 }
 
 
-void DogeCashGUI::subscribeToCoreSignals()
+void DOGECGUI::subscribeToCoreSignals()
 {
     // Connect signals to client
-    uiInterface.ThreadSafeMessageBox.connect(boost::bind(ThreadSafeMessageBox, this, _1, _2, _3));
+    m_handler_message_box = interfaces::MakeHandler(uiInterface.ThreadSafeMessageBox.connect(std::bind(ThreadSafeMessageBox, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3)));
 }
 
-void DogeCashGUI::unsubscribeFromCoreSignals()
+void DOGECGUI::unsubscribeFromCoreSignals()
 {
     // Disconnect signals from client
-    uiInterface.ThreadSafeMessageBox.disconnect(boost::bind(ThreadSafeMessageBox, this, _1, _2, _3));
+    m_handler_message_box->disconnect();
 }

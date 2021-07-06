@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,6 +11,8 @@
 
 #include <QDialog>
 
+class DOGECGUI;
+
 namespace Ui {
 class SettingsFaqWidget;
 }
@@ -15,31 +20,31 @@ class SettingsFaqWidget;
 class SettingsFaqWidget : public QDialog
 {
     Q_OBJECT
-
 public:
-    explicit SettingsFaqWidget(QWidget *parent = nullptr);
+    enum Section {
+        INTRO,
+        UNSPENDABLE,
+        STAKE,
+        SUPPORT,
+        MASTERNODE,
+        MNCONTROLLER
+    };
+
+    explicit SettingsFaqWidget(DOGECGUI *parent = nullptr);
     ~SettingsFaqWidget();
 
     void showEvent(QShowEvent *event) override;
 
-public slots:
+public Q_SLOTS:
    void windowResizeEvent(QResizeEvent* event);
-   void setSection(int num);
-private slots:
-    void onFaq1Clicked();
-    void onFaq2Clicked();
-    void onFaq3Clicked();
-    void onFaq4Clicked();
-    void onFaq5Clicked();
-    void onFaq6Clicked();
-    void onFaq7Clicked();
-    void onFaq8Clicked();
-    void onFaq9Clicked();
-    void onFaq10Clicked();
+   void setSection(Section _section);
+private Q_SLOTS:
+    void onFaqClicked(const QWidget* const widget);
 private:
     Ui::SettingsFaqWidget *ui;
-    int pos = 0;
+    Section section = INTRO;
 
+    // This needs to be edited if changes are made to the Section enum.
     std::vector<QPushButton*> getButtons();
 };
 

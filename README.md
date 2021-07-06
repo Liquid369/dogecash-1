@@ -1,27 +1,54 @@
 DogeCash Core integration/staging repository
 =====================================
-[![Build history](https://buildstats.info/travisci/chart/dogecash/dogecash?branch=master)](https://travis-ci.com/dogecash/dogecash?branch=master)
-<br>
-[![GitHub license](https://img.shields.io/github/license/dogecash/dogecash.svg)](https://github.com/dogecash/dogecash-explorer/blob/master/COPYING) [![Build Status](https://travis-ci.com/dogecash/dogecash.svg?branch=master)](https://travis-ci.com/dogecash-crypto/dogecash-explorer) [![Discord](https://img.shields.io/discord/479050479330918410.svg)](http://discord.dogec.io/) [![GitHub version](https://badge.fury.io/gh/dogecash%2Fdogecash.svg)](https://badge.fury.io/gh/dogecash%2Fdogecash)
-<br>
-DogeCash (DOGEC) is a transparent, community-governed cryptocurrency aimed at preserving what makes DogeCoin unique while offering an alternative way for the average investor to get involved. This is done through the creation of DogeNodes, utilization of Proof of Stake, and active governance.
 
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/DogeCash/DogeCash?color=%23365ace&cacheSeconds=3600)](https://github.com/dogecash/dogecash/releases)
+[![GitHub Release Date](https://img.shields.io/github/release-date/DogeCash/DogeCash?color=%23365ace&cacheSeconds=3600)](https://github.com/dogecash/dogecash/releases)
 
-![DogeCash Logo](https://dogec.io/assets/images/logo.svg)
+## What is DOGEC?
 
+DogeCash is an open source community-driven cryptocurrency, focused on five main aspects:
 
-You bring value to the long term success of the project, not how much money you have in your pocket. Become an integral part of the network with minimal investment.
+(1) User Data Protection: Through the use of pur non custodial services, the DogeCash Mobile App.
 
-More information at [dogec.io](https://dogec.io) Visit our ANN thread at [BitcoinTalk](https://bitcointalk.org/index.php?topic=5039914.msg46278874)
+(2) Low environmental footprint and network participation equality: Through the use of a highly developed Proof of Stake protocol.
 
-### Coin Specs
-<table>
-<tr><td>Algo</td><td>Quark</td></tr>
-<tr><td>Block Time</td><td>60 Seconds</td></tr>
-<tr><td>Difficulty Retargeting</td><td>Every Block</td></tr>
-<tr><td>Max Coin Supply (PoW Phase)</td><td>2,000,000 DOGEC</td></tr>
-<tr><td>Max Coin Supply (PoS Phase)</td><td>21,000,000 DOGEC</td></tr>
-<tr><td>Premine</td><td>5% of total supply</td></tr>
-</table>
+(3) Decentralized Governance System: A DAO built on top of the tier two Masternodes network, enabling a monthly community treasury, proposals submission and decentralized voting.
 
+(4) Fast Transactions: Through the use of fast block times and the tier two network, DogeCash is committed to continue researching new and better instant transactions mechanisms.
 
+(5) Ease of Use: DogeCash is determined to offer the best possible graphical interface for a core node/wallet. A full featured graphical product for new and advanced users.
+
+A lot more information and specs at [dogec.io](https://www.dogec.io/). Join the community at [DogeCash Discord](https://discordapp.com/invite/jzqVsJd).
+
+## License
+DogeCash Core is released under the terms of the MIT license. See [COPYING](https://github.com/dogecash/dogecash/blob/master/COPYING) for more information or see https://opensource.org/licenses/MIT.
+
+## Development Process
+
+The master branch is regularly built (see doc/build-*.md for instructions) and tested, but it is not guaranteed to be completely stable. [Tags](https://github.com/dogecash/dogecash/tags) are created regularly from release branches to indicate new official, stable release versions of DogeCash Core.
+
+The contribution workflow is described in [CONTRIBUTING.md](https://github.com/dogecash/dogecash/blob/master/CONTRIBUTING.md) and useful hints for developers can be found in [doc/developer-notes.md](https://github.com/dogecash/dogecash/blob/master/doc/developer-notes.md).
+
+## Testing
+
+Testing and code review is the bottleneck for development; we get more pull requests than we can review and test on short notice. Please be patient and help out by testing other people's pull requests, and remember this is a security-critical project where any mistake might cost people a lot of money.
+
+## Automated Testing
+
+Developers are strongly encouraged to write [unit tests](https://github.com/dogecash/dogecash/blob/master/src/test/README.md) for new code, and to submit new unit tests for old code. Unit tests can be compiled and run (assuming they weren't disabled in configure) with: make check. Further details on running and extending unit tests can be found in [/src/test/README.md](https://github.com/dogecash/dogecash/blob/master/src/test/README.md).
+
+There are also regression and integration tests, written in Python. These tests can be run (if the test dependencies are installed) with: test/functional/test_runner.py`
+
+The CI (Continuous Integration) systems make sure that every pull request is built for Windows, Linux, and macOS, and that unit/sanity tests are run automatically.
+
+## Manual Quality Assurance (QA) Testing
+
+Changes should be tested by somebody other than the developer who wrote the code. This is especially important for large or high-risk changes. It is useful to add a test plan to the pull request description if testing the changes is not straightforward.
+
+## Translations
+
+Changes to translations as well as new translations can be submitted to DogeCash Core's Transifex page.
+
+Translations are periodically pulled from Transifex and merged into the git repository. See the [translation process](https://github.com/dogecash/dogecash/blob/master/doc/translation_process.md) for details on how this works.
+
+Important: We do not accept translation changes as GitHub pull requests because the next pull from Transifex would automatically overwrite them again.

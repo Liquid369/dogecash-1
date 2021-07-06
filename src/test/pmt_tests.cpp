@@ -1,5 +1,7 @@
 // Copyright (c) 2012-2013 The Bitcoin Core developers
-// Copyright (c) 2017 The PIVX developers
+// Copyright (c) 2017-2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,14 +10,13 @@
 #include "streams.h"
 #include "uint256.h"
 #include "version.h"
-#include "test/test_dogecash.h"
 #include "consensus/merkle.h"
+#include "test/test_dogecash.h"
 
 #include <vector>
 
 #include <boost/test/unit_test.hpp>
 
-using namespace std;
 
 class CPartialMerkleTreeTester : public CPartialMerkleTree
 {
@@ -29,7 +30,7 @@ public:
     }
 };
 
-BOOST_AUTO_TEST_SUITE(pmt_tests)
+BOOST_FIXTURE_TEST_SUITE(pmt_tests, BasicTestingSetup)
 
 BOOST_AUTO_TEST_CASE(pmt_test1)
 {
@@ -42,15 +43,15 @@ BOOST_AUTO_TEST_CASE(pmt_test1)
         CBlock block;
         for (unsigned int j=0; j<nTx; j++) {
             CMutableTransaction tx;
-            tx.nLockTime = rand(); // actual transaction data doesn't matter; just make the nLockTime's unique
-            block.vtx.push_back(CTransaction(tx));
+            tx.nLockTime = InsecureRand32(); // actual transaction data doesn't matter; just make the nLockTime's unique
+            block.vtx.emplace_back(std::make_shared<const CTransaction>(tx));
         }
 
         // calculate actual merkle root and height
         uint256 merkleRoot1 = BlockMerkleRoot(block);
-        std::vector<uint256> vTxid(nTx, 0);
+        std::vector<uint256> vTxid(nTx, UINT256_ZERO);
         for (unsigned int j=0; j<nTx; j++)
-            vTxid[j] = block.vtx[j].GetHash();
+            vTxid[j] = block.vtx[j]->GetHash();
         int nHeight = 1, nTx_ = nTx;
         while (nTx_ > 1) {
             nTx_ = (nTx_+1)/2;
@@ -90,7 +91,7 @@ BOOST_AUTO_TEST_CASE(pmt_test1)
 
             // check that it has the same merkle root as the original, and a valid one
             BOOST_CHECK(merkleRoot1 == merkleRoot2);
-            BOOST_CHECK(merkleRoot2 != 0);
+            BOOST_CHECK(!merkleRoot2.IsNull());
 
             // check that it contains the matched transactions (in the same order!)
             BOOST_CHECK(vMatchTxid1 == vMatchTxid2);

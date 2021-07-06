@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -18,12 +21,17 @@ class SettingsWalletOptionsWidget : public PWidget
     Q_OBJECT
 
 public:
-    explicit SettingsWalletOptionsWidget(DogeCashGUI* _window, QWidget *parent = nullptr);
+    explicit SettingsWalletOptionsWidget(DOGECGUI* _window, QWidget *parent = nullptr);
     ~SettingsWalletOptionsWidget();
 
     void setMapper(QDataWidgetMapper *mapper);
+    void setSpinBoxStakeSplitThreshold(double val);
 
-public slots:
+Q_SIGNALS:
+    void saveSettings();
+    void discardSettings();
+
+public Q_SLOTS:
     void onResetClicked();
 
 private:

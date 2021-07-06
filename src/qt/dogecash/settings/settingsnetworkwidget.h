@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,13 +22,16 @@ class SettingsNetworkWidget : public PWidget
     Q_OBJECT
 
 public:
-    explicit SettingsNetworkWidget(DogeCashGUI* _window, QWidget *parent = nullptr);
+    explicit SettingsNetworkWidget(DOGECGUI* _window, QWidget *parent = nullptr);
     ~SettingsNetworkWidget();
 
     void setMapper(QDataWidgetMapper *mapper);
 
 private:
     Ui::SettingsNetworkWidget *ui;
+
+Q_SIGNALS:
+    void saveSettings() {};
 };
 
 #endif // SETTINGSNETWORKWIDGET_H

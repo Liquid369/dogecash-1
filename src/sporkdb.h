@@ -1,15 +1,16 @@
-// Copyright (c) 2017 The PIVX developers
+// Copyright (c) 2017-2019 The PIVX developers
+// Copyright (c) 2020 The DogeCash Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef dogecash_CSPORKDB_H
-#define dogecash_CSPORKDB_H
+#ifndef DOGEC_CSPORKDB_H
+#define DOGEC_CSPORKDB_H
 
-#include <boost/filesystem/path.hpp>
-#include "leveldbwrapper.h"
+#include "fs.h"
+#include "dbwrapper.h"
 #include "spork.h"
 
-class CSporkDB : public CLevelDBWrapper
+class CSporkDB : public CDBWrapper
 {
 public:
     CSporkDB(size_t nCacheSize, bool fMemory = false, bool fWipe = false);
@@ -25,4 +26,4 @@ public:
 };
 
 
-#endif //dogecash_CSPORKDB_H
+#endif //DOGEC_CSPORKDB_H

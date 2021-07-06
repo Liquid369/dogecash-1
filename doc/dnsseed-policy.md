@@ -10,11 +10,10 @@ Other implementations of DogeCash software may also use the same
 seeds and may be more exposed. In light of this exposure, this
 document establishes some basic expectations for operating dnsseeds.
 
-0. A DNS seed operating organization or person is expected
-to follow good host security practices and maintain control of
-their serving infrastructure and not sell or transfer control of their
-DNS seed. Any hosting services contracted by the operator are
-equally expected to uphold these expectations.
+0. A DNS seed operating organization or person is expected to follow good
+host security practices, maintain control of applicable infrastructure,
+and not sell or transfer control of the DNS seed. Any hosting services
+contracted by the operator are equally expected to uphold these expectations.
 
 1. The DNS seed results must consist exclusively of fairly selected and
 functioning DogeCash nodes from the public network to the best of the
@@ -27,7 +26,7 @@ urgent technical necessity and disclosed.
 3. The results may not be served with a DNS TTL of less than one minute.
 
 4. Any logging of DNS queries should be only that which is necessary
-for the operation of the service or urgent health of the DogeCash
+for the operation of the service or urgent health of the DOGEC
 network and must not be retained longer than necessary nor disclosed
 to any third party.
 
@@ -43,7 +42,7 @@ details of their operating practices.
 related to the DNS seed operation.
 
 If these expectations cannot be satisfied the operator should
-discontinue providing services and contact the active DogeCash
+discontinue providing services and contact the active DOGEC
 Core development team as well as posting on the
 [DogeCash Forum](https://forum.dogec.io).
 

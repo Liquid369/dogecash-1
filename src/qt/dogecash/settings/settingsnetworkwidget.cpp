@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,7 +11,7 @@
 #include "optionsmodel.h"
 #include "qt/dogecash/qtutils.h"
 
-SettingsNetworkWidget::SettingsNetworkWidget(DogeCashGUI* _window, QWidget *parent) :
+SettingsNetworkWidget::SettingsNetworkWidget(DOGECGUI* _window, QWidget *parent) :
     PWidget(_window, parent),
     ui(new Ui::SettingsNetworkWidget)
 {
@@ -26,7 +29,7 @@ SettingsNetworkWidget::SettingsNetworkWidget(DogeCashGUI* _window, QWidget *pare
     setCssBtnPrimary(ui->pushButtonSave);
     setCssBtnSecondary(ui->pushButtonReset);
 
-    connect(ui->pushButtonSave, SIGNAL(clicked()), parent, SLOT(onSaveOptionsClicked()));
+    connect(ui->pushButtonSave, &QPushButton::clicked, [this] { Q_EMIT saveSettings(); });
 }
 
 void SettingsNetworkWidget::setMapper(QDataWidgetMapper *mapper){

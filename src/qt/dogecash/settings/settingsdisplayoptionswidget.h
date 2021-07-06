@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,15 +22,19 @@ class SettingsDisplayOptionsWidget : public PWidget
     Q_OBJECT
 
 public:
-    explicit SettingsDisplayOptionsWidget(DogeCashGUI* _window = nullptr, QWidget *parent = nullptr);
+    explicit SettingsDisplayOptionsWidget(DOGECGUI* _window = nullptr, QWidget *parent = nullptr);
     ~SettingsDisplayOptionsWidget();
 
     void setMapper(QDataWidgetMapper *mapper);
     void initLanguages();
     void loadClientModel() override;
 
-public slots:
+public Q_SLOTS:
     void onResetClicked();
+
+Q_SIGNALS:
+    void saveSettings();
+    void discardSettings();
 
 private:
     Ui::SettingsDisplayOptionsWidget *ui;

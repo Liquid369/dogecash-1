@@ -1,4 +1,8 @@
-// Copyright (c) 2019 The DogeCash developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -20,18 +24,21 @@ class TxRow : public QWidget
 public:
     explicit TxRow(QWidget *parent = nullptr);
     ~TxRow();
+
     void init(bool isLightTheme);
+    void showHideSecondAmount(bool show);
     void updateStatus(bool isLightTheme, bool isHover, bool isSelected);
 
     void setDate(QDateTime);
     void setLabel(QString);
-    void setAmount(QString);
+    void setAmount(QString top, QString bottom);
     void setType(bool isLightTheme, int type, bool isConfirmed);
     void setConfirmStatus(bool isConfirmed);
 
 private:
     Ui::TxRow *ui;
     bool isConfirmed = false;
+    bool isDoubleAmount = false;
 };
 
 #endif // TXROW_H

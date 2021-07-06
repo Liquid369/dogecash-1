@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,16 +22,23 @@ class SettingsInformationWidget : public PWidget
     Q_OBJECT
 
 public:
-    explicit SettingsInformationWidget(DogeCashGUI* _window, QWidget *parent = nullptr);
-    ~SettingsInformationWidget();
+    explicit SettingsInformationWidget(DOGECGUI* _window, QWidget *parent = nullptr);
+    ~SettingsInformationWidget() override;
 
     void loadClientModel() override;
 
-private slots:
+    void run(int type) override;
+    void onError(QString error, int type) override;
+
+private Q_SLOTS:
     void setNumConnections(int count);
-    void setMasternodeCount(const QString& strMasternodes);
     void setNumBlocks(int count);
+    void showEvent(QShowEvent* event) override;
+    void hideEvent(QHideEvent* event) override;
+
+public Q_SLOTS:
     void openNetworkMonitor();
+    void setMasternodeCount(const QString& strMasternodes);
 
 private:
     Ui::SettingsInformationWidget *ui;

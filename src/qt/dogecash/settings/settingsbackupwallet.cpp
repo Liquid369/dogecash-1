@@ -1,17 +1,20 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2017-2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "qt/dogecash/settings/settingsbackupwallet.h"
+
 #include "qt/dogecash/settings/forms/ui_settingsbackupwallet.h"
-#include <QFile>
-#include <QGraphicsDropShadowEffect>
+
+#include "guiinterface.h"
 #include "guiutil.h"
 #include "qt/dogecash/qtutils.h"
-#include "guiinterface.h"
-#include "qt/dogecash/qtutils.h"
-SettingsBackupWallet::SettingsBackupWallet(DogeCashGUI* _window, QWidget *parent) :
+
+#include <QGraphicsDropShadowEffect>
+
+SettingsBackupWallet::SettingsBackupWallet(DOGECGUI* _window, QWidget *parent) :
     PWidget(_window, parent),
     ui(new Ui::SettingsBackupWallet)
 {
@@ -24,34 +27,23 @@ SettingsBackupWallet::SettingsBackupWallet(DogeCashGUI* _window, QWidget *parent
     ui->left->setContentsMargins(10,10,10,10);
 
     // Title
-    ui->labelTitle->setText(tr("Backup Wallet "));
     ui->labelTitle->setProperty("cssClass", "text-title-screen");
-
-    ui->labelTitle_2->setText(tr("Change Wallet Passphrase"));
     ui->labelTitle_2->setProperty("cssClass", "text-title-screen");
     ui->labelDivider->setProperty("cssClass", "container-divider");
 
-    // Subtitle
-    ui->labelSubtitle1->setText(tr("Keep your wallet safe doing regular backups, store your backup file externally.\nThis option creates a wallet.dat file that can be used to recover your whole balance (transactions and addresses) from another device."));
-    ui->labelSubtitle1->setProperty("cssClass", "text-subtitle");
-
-    ui->labelSubtitle_2->setText(tr("Change your wallet encryption passphrase for another one that you like. This will decrypt and encrypt your whole data under the new passphrase.\nRemember to write it down to not lose access to your funds."));
-    ui->labelSubtitle_2->setProperty("cssClass", "text-subtitle");
+    // Subtitles
+    setCssProperty({ui->labelSubtitle1, ui->labelSubtitle_2}, "text-subtitle");
 
     // Location
-    ui->labelSubtitleLocation->setText(tr("Where"));
     ui->labelSubtitleLocation->setProperty("cssClass", "text-title");
-
-    ui->pushButtonDocuments->setText(tr("Set a folder location"));
     ui->pushButtonDocuments->setProperty("cssClass", "btn-edit-primary-folder");
     setShadow(ui->pushButtonDocuments);
 
     // Buttons
-    ui->pushButtonSave_2->setText(tr("Change Passphrase"));
     setCssBtnPrimary(ui->pushButtonSave_2);
 
-    connect(ui->pushButtonDocuments, SIGNAL(clicked()), this, SLOT(selectFileOutput()));
-    connect(ui->pushButtonSave_2, SIGNAL(clicked()), this, SLOT(changePassphrase()));
+    connect(ui->pushButtonDocuments, &QPushButton::clicked, this, &SettingsBackupWallet::selectFileOutput);
+    connect(ui->pushButtonSave_2, &QPushButton::clicked, this, &SettingsBackupWallet::changePassphrase);
 }
 
 void SettingsBackupWallet::selectFileOutput()
@@ -62,7 +54,6 @@ void SettingsBackupWallet::selectFileOutput()
 
     if (!filename.isEmpty() && walletModel) {
         ui->pushButtonDocuments->setText(filename);
-
         inform(walletModel->backupWallet(filename) ? tr("Backup created") : tr("Backup creation failed"));
     } else {
         ui->pushButtonDocuments->setText(tr("Select folder..."));
@@ -76,13 +67,13 @@ void SettingsBackupWallet::changePassphrase()
     AskPassphraseDialog *dlg = nullptr;
     if (walletModel->getEncryptionStatus() == WalletModel::Unencrypted) {
         dlg = new AskPassphraseDialog(AskPassphraseDialog::Mode::Encrypt, window,
-                                      walletModel, AskPassphraseDialog::Context::Encrypt);
+                walletModel, AskPassphraseDialog::Context::Encrypt);
     } else {
         dlg = new AskPassphraseDialog(AskPassphraseDialog::Mode::ChangePass, window,
                 walletModel, AskPassphraseDialog::Context::ChangePass);
     }
     dlg->adjustSize();
-    emit execDialog(dlg);
+    Q_EMIT execDialog(dlg);
     dlg->deleteLater();
 }
 

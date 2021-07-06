@@ -97,7 +97,7 @@
              <item>
               <widget class="QLabel" name="labelSubtitle">
                <property name="text">
-                <string>You can see here the history of your account</string>
+                <string>View your account's history</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -258,7 +258,7 @@
                   <string notr="true"/>
                  </property>
                  <property name="text">
-                  <string>Warning</string>
+                  <string notr="true">N/A</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -399,6 +399,9 @@
                 <height>100</height>
                </size>
               </property>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
               <property name="text">
                <string/>
               </property>
@@ -416,7 +419,7 @@
                <string notr="true"/>
               </property>
               <property name="text">
-               <string>No transactions</string>
+               <string>No transactions yet</string>
               </property>
               <property name="alignment">
                <set>Qt::AlignCenter</set>
@@ -447,8 +450,11 @@
              <height>50</height>
             </size>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
            <property name="text">
-            <string>PushButton</string>
+            <string>How to get DOGEC</string>
            </property>
           </widget>
          </item>
@@ -513,7 +519,7 @@
             <item>
              <widget class="QLabel" name="labelMessage">
               <property name="text">
-               <string>TextLabel</string>
+               <string>Amount of staking rewards received.</string>
               </property>
              </widget>
             </item>
@@ -559,9 +565,9 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QLabel" name="labelAmountDogeC">
+           <widget class="QLabel" name="labelAmountDogeCash">
             <property name="text">
-             <string>TextLabel</string>
+             <string notr="true">0 DOGEC</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -569,9 +575,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="labelAmountMNRewards">
+           <widget class="QLabel" name="labelAmountzdogec">
             <property name="text">
-             <string>TextLabel</string>
+             <string notr="true">0 zDOGEC</string>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -649,7 +655,7 @@
                 <item>
                  <widget class="QLabel" name="labelChart">
                   <property name="text">
-                   <string>Staking and MNR statistics</string>
+                   <string>Staking statistics</string>
                   </property>
                  </widget>
                 </item>
@@ -667,7 +673,7 @@
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QLabel" name="labelSquareDogeC">
+                 <widget class="QLabel" name="labelSquareDogeCash">
                   <property name="minimumSize">
                    <size>
                     <width>14</width>
@@ -686,9 +692,9 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="labelDogeC">
+                 <widget class="QLabel" name="labelDogeCash">
                   <property name="text">
-                   <string>DOGEC</string>
+                   <string notr="true">DOGEC</string>
                   </property>
                  </widget>
                 </item>
@@ -709,7 +715,7 @@
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QLabel" name="labelSquareMNRewards">
+                 <widget class="QLabel" name="labelSquarezdogec">
                   <property name="minimumSize">
                    <size>
                     <width>14</width>
@@ -728,9 +734,9 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="labelMNRewards">
+                 <widget class="QLabel" name="labelzdogec">
                   <property name="text">
-                   <string>DOGEC MNR</string>
+                   <string notr="true">zDOGEC</string>
                   </property>
                  </widget>
                 </item>
@@ -847,6 +853,9 @@
                            <height>19</height>
                           </size>
                          </property>
+                         <property name="focusPolicy">
+                          <enum>Qt::NoFocus</enum>
+                         </property>
                          <property name="styleSheet">
                           <string notr="true"/>
                          </property>
@@ -868,6 +877,9 @@
                            <width>19</width>
                            <height>19</height>
                           </size>
+                         </property>
+                         <property name="focusPolicy">
+                          <enum>Qt::NoFocus</enum>
                          </property>
                          <property name="styleSheet">
                           <string notr="true"/>
@@ -911,7 +923,7 @@ margin:0px;</string>
            </item>
            <item alignment="Qt::AlignVCenter">
             <widget class="QWidget" name="containerSort" native="true">
-             <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="3,2">
+             <layout class="QHBoxLayout" name="horizontalLayout_61" stretch="3,2">
               <property name="spacing">
                <number>28</number>
               </property>
@@ -968,6 +980,9 @@ margin:0px;</string>
                      <height>16777215</height>
                     </size>
                    </property>
+                   <property name="focusPolicy">
+                    <enum>Qt::NoFocus</enum>
+                   </property>
                    <property name="text">
                     <string>Days</string>
                    </property>
@@ -992,6 +1007,9 @@ margin:0px;</string>
                      <width>16777215</width>
                      <height>16777215</height>
                     </size>
+                   </property>
+                   <property name="focusPolicy">
+                    <enum>Qt::NoFocus</enum>
                    </property>
                    <property name="text">
                     <string>Months</string>
@@ -1023,6 +1041,9 @@ margin:0px;</string>
                      <width>16777215</width>
                      <height>16777215</height>
                     </size>
+                   </property>
+                   <property name="focusPolicy">
+                    <enum>Qt::NoFocus</enum>
                    </property>
                    <property name="text">
                     <string>Years</string>
@@ -1250,6 +1271,9 @@ margin:0px;</string>
                   <height>100</height>
                  </size>
                 </property>
+                <property name="focusPolicy">
+                 <enum>Qt::NoFocus</enum>
+                </property>
                 <property name="text">
                  <string/>
                 </property>
@@ -1267,7 +1291,7 @@ margin:0px;</string>
                  <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>LabelText</string>
+                 <string notr="true">N/A</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -1299,7 +1323,8 @@ margin:0px;</string>
 }</string>
              </property>
              <property name="text">
-              <string>TextLabel</string>
+              <string>You can verify the staking activity in the status bar at the top right of the wallet.
+It will start automatically as soon as the wallet has enough confirmations on any unspent balances, and the wallet has synced.</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>

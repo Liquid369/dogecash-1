@@ -1,5 +1,6 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2017-2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,7 +10,7 @@
 #include <QWidget>
 #include "qt/dogecash/pwidget.h"
 
-class DogeCashGUI;
+class DOGECGUI;
 
 namespace Ui {
 class NavMenuWidget;
@@ -20,24 +21,22 @@ class NavMenuWidget : public PWidget
     Q_OBJECT
 
 public:
-    explicit NavMenuWidget(DogeCashGUI* mainWindow, QWidget *parent = nullptr);
+    explicit NavMenuWidget(DOGECGUI* mainWindow, QWidget *parent = nullptr);
     ~NavMenuWidget();
 
     void loadWalletModel() override;
     virtual void showEvent(QShowEvent *event) override;
 
-public slots:
+public Q_SLOTS:
     void selectSettings();
     void onShowHideColdStakingChanged(bool show);
 
-private slots:
+private Q_SLOTS:
     void onSendClicked();
     void onDashboardClicked();
-    void onPrivacyClicked();
     void onAddressClicked();
     void onMasterNodesClicked();
     void onColdStakingClicked();
-    void onGovernanceClicked();
     void onSettingsClicked();
     void onReceiveClicked();
     void updateButtonStyles();

@@ -68,14 +68,14 @@
             <item>
              <widget class="QLabel" name="labelTitle">
               <property name="text">
-               <string>Send</string>
+               <string>Contacts</string>
               </property>
              </widget>
             </item>
             <item alignment="Qt::AlignTop">
              <widget class="QLabel" name="labelSubtitle1">
               <property name="text">
-               <string>TextLabel</string>
+               <string>You can add a new one in the options menu to the side.</string>
               </property>
              </widget>
             </item>
@@ -94,7 +94,7 @@
             </property>
            </spacer>
           </item>
-           <item>
+          <item>
            <widget class="QWidget" name="sortWidget" native="true">
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <property name="leftMargin">
@@ -259,6 +259,9 @@
                   <height>100</height>
                  </size>
                 </property>
+                <property name="focusPolicy">
+                 <enum>Qt::NoFocus</enum>
+                </property>
                 <property name="text">
                  <string/>
                 </property>
@@ -276,7 +279,7 @@
                  <string notr="true"/>
                 </property>
                 <property name="text">
-                 <string>No active Masternode yet</string>
+                 <string>No contacts yet</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
@@ -355,7 +358,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEditName"/>
+              <widget class="QLineEdit" name="lineEditName">
+               <property name="placeholderText">
+                <string notr="true">e.g. John Doe</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -388,7 +395,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEditAddress"/>
+              <widget class="QLineEdit" name="lineEditAddress">
+               <property name="placeholderText">
+                <string notr="true">e.g. D8FpnBdmahyJNRsVzoKzyFHbGjcUbX43QN</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -434,8 +445,11 @@
                  <height>50</height>
                 </size>
                </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
                <property name="text">
-                <string>OK</string>
+                <string>SAVE</string>
                </property>
               </widget>
              </item>

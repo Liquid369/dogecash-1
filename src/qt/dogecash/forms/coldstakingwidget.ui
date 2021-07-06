@@ -55,10 +55,10 @@
            <number>0</number>
           </property>
           <property name="leftMargin">
-           <number>20</number>
+           <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>20</number>
+           <number>0</number>
           </property>
           <item>
            <widget class="QWidget" name="containerTitle" native="true">
@@ -79,13 +79,13 @@
               <number>0</number>
              </property>
              <property name="leftMargin">
-              <number>0</number>
+              <number>20</number>
              </property>
              <property name="topMargin">
               <number>0</number>
              </property>
              <property name="rightMargin">
-              <number>0</number>
+              <number>20</number>
              </property>
              <property name="bottomMargin">
               <number>0</number>
@@ -98,7 +98,7 @@
                <item>
                 <widget class="QLabel" name="labelTitle">
                  <property name="text">
-                  <string>Title</string>
+                  <string>Cold Staking</string>
                  </property>
                 </widget>
                </item>
@@ -111,7 +111,8 @@
                   </size>
                  </property>
                  <property name="text">
-                  <string>TextLabel</string>
+                  <string>You can delegate your DOGECs, letting a hot node (24/7 online node)
+stake on your behalf, while you keep the keys securely offline.</string>
                  </property>
                 </widget>
                </item>
@@ -183,8 +184,11 @@
                        <height>30</height>
                       </size>
                      </property>
+                     <property name="focusPolicy">
+                      <enum>Qt::NoFocus</enum>
+                     </property>
                      <property name="text">
-                      <string>PushButton</string>
+                      <string>Staker</string>
                      </property>
                      <property name="checkable">
                       <bool>true</bool>
@@ -208,8 +212,11 @@
                        <height>30</height>
                       </size>
                      </property>
+                     <property name="focusPolicy">
+                      <enum>Qt::NoFocus</enum>
+                     </property>
                      <property name="text">
-                      <string>PushButton</string>
+                      <string>Delegation</string>
                      </property>
                      <property name="checkable">
                       <bool>true</bool>
@@ -228,7 +235,7 @@
                 <item alignment="Qt::AlignTop">
                  <widget class="QLabel" name="labelSubtitle2">
                   <property name="text">
-                   <string>TextLabel</string>
+                   <string>Accept DOGEC delegation / Delegate DOGEC</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -293,7 +300,7 @@
                 <string notr="true">padding-left:20px; padding-bottom:3px;</string>
                </property>
                <property name="text">
-                <string/>
+                <string>Cold Staking address</string>
                </property>
               </widget>
              </item>
@@ -345,7 +352,7 @@
                    padding:0px;</string>
                   </property>
                   <property name="text">
-                   <string>Owner Address (optional, if empty a new address will be created)</string>
+                   <string>Owner address (optional, if empty a new address will be created)</string>
                   </property>
                  </widget>
                 </item>
@@ -365,6 +372,9 @@
                   </property>
                   <property name="styleSheet">
                    <string notr="true"/>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Enter owner address</string>
                   </property>
                  </widget>
                 </item>
@@ -443,8 +453,11 @@
                  <height>50</height>
                 </size>
                </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
                <property name="text">
-                <string/>
+                <string>Clear All</string>
                </property>
               </widget>
              </item>
@@ -478,8 +491,11 @@
                  <height>50</height>
                 </size>
                </property>
+               <property name="focusPolicy">
+                <enum>Qt::NoFocus</enum>
+               </property>
                <property name="text">
-                <string/>
+                <string>Delegate</string>
                </property>
               </widget>
              </item>
@@ -507,14 +523,14 @@
             <number>0</number>
            </property>
            <item>
-           <widget class="QWidget" name="verticalWidget" native="true">
+            <widget class="QWidget" name="verticalWidget" native="true">
              <property name="minimumSize">
               <size>
                <width>100</width>
                <height>0</height>
               </size>
              </property>
-            <layout class="QVBoxLayout" name="verticalLayout_58">
+             <layout class="QVBoxLayout" name="verticalLayout_58">
               <property name="leftMargin">
                <number>0</number>
               </property>
@@ -530,7 +546,7 @@
               <item>
                <widget class="QLabel" name="labelListHistory">
                 <property name="text">
-                 <string>List of delegated balance by address</string>
+                 <string>Delegated balance history</string>
                 </property>
                </widget>
               </item>
@@ -678,6 +694,9 @@
                     <height>100</height>
                    </size>
                   </property>
+                  <property name="focusPolicy">
+                   <enum>Qt::NoFocus</enum>
+                  </property>
                   <property name="text">
                    <string/>
                   </property>
@@ -695,7 +714,7 @@
                    <string notr="true"/>
                   </property>
                   <property name="text">
-                   <string>No balance delegated</string>
+                   <string>No delegations yet</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -718,7 +737,7 @@
    <item>
     <widget class="QWidget" name="right" native="true">
      <layout class="QVBoxLayout" name="rightContainer">
-     <property name="spacing">
+      <property name="spacing">
        <number>0</number>
       </property>
       <property name="leftMargin">

@@ -1,5 +1,6 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2017-2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -42,9 +43,19 @@ public:
     bool addMn(CMasternodeConfig::CMasternodeEntry* entry);
     void updateMNList();
 
+
     bool isMNsNetworkSynced();
-    // Checks if the masternode is in missing state
-    bool isMNMissingOrExpired(QString mnAlias);
+    // Returns the MN activeState field.
+    int getMNState(QString alias);
+    // Checks if the masternode is inactive
+    bool isMNInactive(QString mnAlias);
+    // Masternode is active if it's in PRE_ENABLED OR ENABLED state
+    bool isMNActive(QString mnAlias);
+    // Masternode collateral has enough confirmations
+    bool isMNCollateralMature(QString mnAlias);
+    // Validate string representing a masternode IP address
+    static bool validateMNIP(const QString& addrStr);
+
 
 private:
     // alias mn node ---> pair <ip, master node>

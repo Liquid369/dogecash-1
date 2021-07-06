@@ -2,8 +2,8 @@
 Version=1.0
 Name=DogeCash Core
 Comment=DogeCash P2P Cryptocurrency
-Comment[fr]=DogeCash, monnaie virtuelle cryptographique pair à pair
-Comment[tr]=DogeCash, eşten eşe kriptografik sanal para birimi
+Comment[fr]=DOGEC, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=DOGEC, eşten eşe kriptografik sanal para birimi
 Exec=dogecash-qt %u
 Terminal=false
 Type=Application

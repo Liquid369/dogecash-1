@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -14,7 +17,7 @@
 #include "optionsmodel.h"
 
 RequestDialog::RequestDialog(QWidget *parent) :
-    QDialog(parent),
+    FocusedDialog(parent),
     ui(new Ui::RequestDialog)
 {
     ui->setupUi(this);
@@ -23,10 +26,7 @@ RequestDialog::RequestDialog(QWidget *parent) :
     setCssProperty(ui->frame, "container-dialog");
 
     // Text
-    ui->labelTitle->setText(tr("New Request Payment"));
     setCssProperty(ui->labelTitle, "text-title-dialog");
-
-    ui->labelMessage->setText(tr("Instead of share a DogeCash address, you can create a Payment Request message which bundles up more information than is contained in just a DogeCash address."));
     setCssProperty(ui->labelMessage, "text-main-grey");
 
     // Combo Coins
@@ -34,23 +34,16 @@ RequestDialog::RequestDialog(QWidget *parent) :
     setCssProperty(ui->comboContainer, "container-purple");
 
     // Label
-    ui->labelSubtitleLabel->setText(tr("Label"));
     setCssProperty(ui->labelSubtitleLabel, "text-title2-dialog");
-    ui->lineEditLabel->setPlaceholderText(tr("Enter a label to be saved within the address"));
     setCssEditLineDialog(ui->lineEditLabel, true);
 
     // Amount
-    ui->labelSubtitleAmount->setText(tr("Amount"));
     setCssProperty(ui->labelSubtitleAmount, "text-title2-dialog");
-    ui->lineEditAmount->setPlaceholderText("0.00 DOGEC");
     setCssEditLineDialog(ui->lineEditAmount, true);
     GUIUtil::setupAmountWidget(ui->lineEditAmount, this);
 
     // Description
-    ui->labelSubtitleDescription->setText(tr("Description (optional)"));
     setCssProperty(ui->labelSubtitleDescription, "text-title2-dialog");
-
-    ui->lineEditDescription->setPlaceholderText(tr("Add description "));
     setCssEditLineDialog(ui->lineEditDescription, true);
 
     // Stack
@@ -63,56 +56,56 @@ RequestDialog::RequestDialog(QWidget *parent) :
     // Buttons
     setCssProperty(ui->btnEsc, "ic-close");
     setCssProperty(ui->btnCancel, "btn-dialog-cancel");
-    ui->btnSave->setText(tr("GENERATE"));
     setCssBtnPrimary(ui->btnSave);
     setCssBtnPrimary(ui->btnCopyAddress);
     setCssBtnPrimary(ui->btnCopyUrl);
 
-    connect(ui->btnCancel, SIGNAL(clicked()), this, SLOT(close()));
-    connect(ui->btnEsc, SIGNAL(clicked()), this, SLOT(close()));
-    connect(ui->btnSave, SIGNAL(clicked()), this, SLOT(onNextClicked()));
+    connect(ui->btnCancel, &QPushButton::clicked, this, &RequestDialog::close);
+    connect(ui->btnEsc, &QPushButton::clicked, this, &RequestDialog::close);
+    connect(ui->btnSave, &QPushButton::clicked, this, &RequestDialog::accept);
     // TODO: Change copy address for save image (the method is already implemented in other class called exportQr or something like that)
-    connect(ui->btnCopyAddress, SIGNAL(clicked()), this, SLOT(onCopyClicked()));
-    connect(ui->btnCopyUrl, SIGNAL(clicked()), this, SLOT(onCopyUriClicked()));
+    connect(ui->btnCopyAddress, &QPushButton::clicked, this, &RequestDialog::onCopyClicked);
+    connect(ui->btnCopyUrl, &QPushButton::clicked, this, &RequestDialog::onCopyUriClicked);
 }
 
-void RequestDialog::setWalletModel(WalletModel *model){
+void RequestDialog::setWalletModel(WalletModel *model)
+{
     this->walletModel = model;
 }
 
-void RequestDialog::setPaymentRequest(bool isPaymentRequest) {
+void RequestDialog::setPaymentRequest(bool isPaymentRequest)
+{
     this->isPaymentRequest = isPaymentRequest;
     if (!this->isPaymentRequest) {
         ui->labelMessage->setText(tr("Creates an address to receive coin delegations and be able to stake them."));
         ui->labelTitle->setText(tr("New Cold Staking Address"));
+        ui->labelSubtitleAmount->setText(tr("Amount (optional)"));
     }
 }
 
-
-void RequestDialog::onNextClicked(){
-    if(walletModel) {
+void RequestDialog::accept()
+{
+    if (walletModel) {
         QString labelStr = ui->lineEditLabel->text();
 
-        // Amount
+        //Amount
         int displayUnit = walletModel->getOptionsModel()->getDisplayUnit();
         bool isValueValid = true;
-        CAmount value = GUIUtil::parseValue(
-                ui->lineEditAmount->text(),
-                displayUnit,
-                &isValueValid
-        );
+        CAmount value = (ui->lineEditAmount->text().isEmpty() ?
+                            0 :
+                            GUIUtil::parseValue(ui->lineEditAmount->text(), displayUnit, &isValueValid)
+                        );
 
         if (!this->isPaymentRequest) {
-
             // Add specific checks for cold staking address creation
             if (labelStr.isEmpty()) {
-                inform("Address label cannot be empty");
+                inform(tr("Address label cannot be empty"));
                 return;
             }
         }
 
         if (value < 0 || !isValueValid) {
-            inform("Invalid amount");
+            inform(tr("Invalid amount"));
             return;
         }
 
@@ -125,14 +118,14 @@ void RequestDialog::onNextClicked(){
         std::string label = info->label.isEmpty() ? "" : info->label.toStdString();
         QString title;
 
-        CBitcoinAddress address;
+        Destination address;
         PairResult r(false);
         if (this->isPaymentRequest) {
             r = walletModel->getNewAddress(address, label);
-            title = "Request for " + BitcoinUnits::format(displayUnit, value, false, BitcoinUnits::separatorAlways) + " DOGEC";
+            title = tr("Request for ") + BitcoinUnits::format(displayUnit, value, false, BitcoinUnits::separatorAlways) + " " + QString(CURRENCY_UNIT.c_str());
         } else {
             r = walletModel->getNewStakingAddress(address, label);
-            title = "Cold Staking Address Generated";
+            title = tr("Cold Staking Address Generated");
         }
 
         if (!r.result) {
@@ -140,8 +133,10 @@ void RequestDialog::onNextClicked(){
             close();
             return;
         }
+
         info->address = QString::fromStdString(address.ToString());
         ui->labelTitle->setText(title);
+
         updateQr(info->address);
         ui->labelAddress->setText(info->address);
         ui->buttonsStack->setVisible(false);
@@ -150,19 +145,21 @@ void RequestDialog::onNextClicked(){
     }
 }
 
-void RequestDialog::onCopyClicked(){
-    if(info) {
+void RequestDialog::onCopyClicked()
+{
+    if (info) {
         GUIUtil::setClipboard(info->address);
         res = 2;
-        accept();
+        QDialog::accept();
     }
 }
 
-void RequestDialog::onCopyUriClicked(){
-    if(info) {
+void RequestDialog::onCopyUriClicked()
+{
+    if (info) {
         GUIUtil::setClipboard(GUIUtil::formatBitcoinURI(*info));
         res = 1;
-        accept();
+        QDialog::accept();
     }
 }
 
@@ -171,21 +168,22 @@ void RequestDialog::showEvent(QShowEvent *event)
     if (ui->lineEditAmount) ui->lineEditAmount->setFocus();
 }
 
-
-void RequestDialog::updateQr(QString str){
+void RequestDialog::updateQr(QString str)
+{
     QString uri = GUIUtil::formatBitcoinURI(*info);
     ui->labelQrImg->setText("");
     QString error;
     QPixmap pixmap = encodeToQr(uri, error);
-    if(!pixmap.isNull()){
+    if (!pixmap.isNull()) {
         qrImage = &pixmap;
         ui->labelQrImg->setPixmap(qrImage->scaled(ui->labelQrImg->width(), ui->labelQrImg->height()));
-    }else{
+    } else {
         ui->labelQrImg->setText(!error.isEmpty() ? error : "Error encoding address");
     }
 }
 
-void RequestDialog::inform(QString text){
+void RequestDialog::inform(QString text)
+{
     if (!snackBar)
         snackBar = new SnackBar(nullptr, this);
     snackBar->setText(text);
@@ -193,6 +191,7 @@ void RequestDialog::inform(QString text){
     openDialog(snackBar, this);
 }
 
-RequestDialog::~RequestDialog(){
+RequestDialog::~RequestDialog()
+{
     delete ui;
 }

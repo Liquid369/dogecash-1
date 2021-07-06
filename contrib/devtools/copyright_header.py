@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # Copyright (c) 2016-2018 The Bitcoin Core developers
-# Copyright (c) 2018-2019 The DogeCash developers
+# Copyright (c) 2018-2019 The PIVX developers
+# Copyright (c) 2020 The PIVX Developers
+# Copyright (c) 2020 The DogeCash Developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -34,6 +36,7 @@ EXCLUDE_DIRS = [
     "src/leveldb/",
     "src/secp256k1/",
     "src/univalue/",
+    "src/crc32c",
 ]
 
 INCLUDE = ['*.h', '*.cpp', '*.cc', '*.c', '*.py']
@@ -120,7 +123,7 @@ EXPECTED_HOLDER_NAMES = [
     "The Dash Developers\n",
     "The Dash Core developers\n",
     "The PIVX developers\n",
-    "The DogeCash developers\n",
+    "The DogeCash Developers\n",
     "The PPCoin developers\n",
     "The NovaCoin Developers",
     "The BlackCoin Developers\n",

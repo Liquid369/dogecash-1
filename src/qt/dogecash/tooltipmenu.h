@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -10,7 +13,7 @@
 #include <QWidget>
 #include <QModelIndex>
 
-class DogeCashGUI;
+class DOGECGUI;
 class WalletModel;
 
 namespace Ui {
@@ -26,7 +29,7 @@ class TooltipMenu : public PWidget
     Q_OBJECT
 
 public:
-    explicit TooltipMenu(DogeCashGUI* _window, QWidget *parent = nullptr);
+    explicit TooltipMenu(DOGECGUI* _window, QWidget *parent = nullptr);
     ~TooltipMenu() override;
 
     void setIndex(const QModelIndex &index);
@@ -41,13 +44,13 @@ public:
     void setEditBtnVisible(bool visible);
     void setLastBtnVisible(bool visible);
 
-signals:
+Q_SIGNALS:
     void onDeleteClicked();
     void onCopyClicked();
     void onEditClicked();
     void onLastClicked();
 
-private slots:
+private Q_SLOTS:
     void deleteClicked();
     void copyClicked();
     void editClicked();

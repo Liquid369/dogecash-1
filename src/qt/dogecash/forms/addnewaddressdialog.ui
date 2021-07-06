@@ -50,7 +50,7 @@
       <item alignment="Qt::AlignHCenter">
        <widget class="QLabel" name="labelTitle">
         <property name="text">
-         <string>My Address</string>
+         <string>New Address</string>
         </property>
        </widget>
       </item>
@@ -113,7 +113,7 @@
         <item>
          <widget class="QLabel" name="labelAddress">
           <property name="text">
-           <string>D7VFR83SQbiezrW72hjcWJtcfip5krte2Z </string>
+           <string>Address</string>
           </property>
          </widget>
         </item>
@@ -170,6 +170,9 @@
             <height>50</height>
            </size>
           </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
            <string>CANCEL</string>
           </property>
@@ -183,8 +186,11 @@
             <height>50</height>
            </size>
           </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
+          </property>
           <property name="text">
-           <string>OK</string>
+           <string>SAVE</string>
           </property>
          </widget>
         </item>

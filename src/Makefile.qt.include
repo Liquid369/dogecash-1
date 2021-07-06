@@ -6,64 +6,28 @@ bin_PROGRAMS += qt/dogecash-qt
 EXTRA_LIBRARIES += qt/libbitcoinqt.a
 
 # dogecash qt core #
-QT_TS = \
-  qt/locale/dogecash_bg.ts \
-  qt/locale/dogecash_ca.ts \
-  qt/locale/dogecash_cs.ts \
-  qt/locale/dogecash_da.ts \
-  qt/locale/dogecash_de.ts \
-  qt/locale/dogecash_en.ts \
-  qt/locale/dogecash_en_GB.ts \
-  qt/locale/dogecash_en_US.ts \
-  qt/locale/dogecash_eo.ts \
-  qt/locale/dogecash_es.ts \
-  qt/locale/dogecash_es_ES.ts \
-  qt/locale/dogecash_fi.ts \
-  qt/locale/dogecash_fr_FR.ts \
-  qt/locale/dogecash_hi_IN.ts \
-  qt/locale/dogecash_hr.ts \
-  qt/locale/dogecash_hr_HR.ts \
-  qt/locale/dogecash_it.ts \
-  qt/locale/dogecash_ja.ts \
-  qt/locale/dogecash_ko_KR.ts \
-  qt/locale/dogecash_lt_LT.ts \
-  qt/locale/dogecash_nl.ts \
-  qt/locale/dogecash_pl.ts \
-  qt/locale/dogecash_pt.ts \
-  qt/locale/dogecash_pt_BR.ts \
-  qt/locale/dogecash_ro_RO.ts \
-  qt/locale/dogecash_ru.ts \
-  qt/locale/dogecash_sk.ts \
-  qt/locale/dogecash_sv.ts \
-  qt/locale/dogecash_tr.ts \
-  qt/locale/dogecash_uk.ts \
-  qt/locale/dogecash_vi.ts \
-  qt/locale/dogecash_zh_CN.ts \
-  qt/locale/dogecash_zh_TW.ts
+include Makefile.qt_locale.include
 
 QT_FORMS_UI = \
   qt/forms/addressbookpage.ui \
   qt/forms/askpassphrasedialog.ui \
   qt/forms/coincontroldialog.ui \
-  qt/forms/blockexplorer.ui \
   qt/forms/editaddressdialog.ui \
   qt/forms/helpmessagedialog.ui \
   qt/forms/intro.ui \
   qt/forms/openuridialog.ui \
   qt/forms/optionsdialog.ui \
-  qt/dogecash/forms/proposaldialog.ui \
   qt/forms/rpcconsole.ui \
   qt/dogecash/forms/loadingdialog.ui \
-  qt/forms/zdogeccontroldialog.ui \
   qt/dogecash/forms/snackbar.ui \
   qt/dogecash/forms/navmenuwidget.ui \
   qt/dogecash/forms/lockunlock.ui \
   qt/dogecash/forms/expandablebutton.ui \
   qt/dogecash/forms/receivedialog.ui \
+  qt/dogecash/forms/balancebubble.ui \
   qt/dogecash/forms/topbar.ui \
   qt/dogecash/forms/txrow.ui \
   qt/dogecash/forms/dashboardwidget.ui \
-  qt/dogecash/forms/coincontroldogecwidget.ui \
   qt/dogecash/forms/addresslabelrow.ui \
   qt/dogecash/forms/contactdropdownrow.ui \
   qt/dogecash/forms/mninfodialog.ui \
@@ -73,13 +37,12 @@ QT_FORMS_UI = \
   qt/dogecash/forms/masternodeswidget.ui \
   qt/dogecash/forms/myaddressrow.ui \
   qt/dogecash/forms/csrow.ui \
+  qt/dogecash/forms/sendmemodialog.ui \
   qt/dogecash/forms/sendchangeaddressdialog.ui \
   qt/dogecash/forms/sendconfirmdialog.ui \
   qt/dogecash/forms/sendcustomfeedialog.ui \
-  qt/dogecash/forms/sendchangeaddressdialog.ui \
   qt/dogecash/forms/sendmultirow.ui \
   qt/dogecash/forms/send.ui \
-  qt/dogecash/forms/governancepage.ui \
   qt/dogecash/forms/addnewaddressdialog.ui \
   qt/dogecash/forms/addnewcontactdialog.ui \
   qt/dogecash/forms/requestdialog.ui \
@@ -87,8 +50,6 @@ QT_FORMS_UI = \
   qt/dogecash/forms/tooltipmenu.ui \
   qt/dogecash/forms/addresseswidget.ui \
   qt/dogecash/forms/defaultdialog.ui \
-  qt/dogecash/forms/denomgenerationdialog.ui \
-  qt/dogecash/forms/privacywidget.ui \
   qt/dogecash/forms/coldstakingwidget.ui \
   qt/dogecash/settings/forms/settingsbackupwallet.ui \
   qt/dogecash/settings/forms/settingsexportcsv.ui \
@@ -113,10 +74,8 @@ QT_MOC_CPP = \
   qt/moc_askpassphrasedialog.cpp \
   qt/moc_bantablemodel.cpp \
   qt/moc_bitcoinaddressvalidator.cpp \
-  qt/moc_bitcoinamountfield.cpp \
   qt/dogecash/moc_dogecashgui.cpp \
   qt/moc_bitcoinunits.cpp \
-  qt/moc_blockexplorer.cpp \
   qt/moc_clientmodel.cpp \
   qt/moc_coincontroldialog.cpp \
   qt/moc_coincontroltreewidget.cpp \
@@ -132,37 +91,32 @@ QT_MOC_CPP = \
   qt/moc_optionsmodel.cpp \
   qt/moc_peertablemodel.cpp \
   qt/moc_paymentserver.cpp \
-  qt/dogecash/moc_proposaldialog.cpp \
   qt/moc_qvalidatedlineedit.cpp \
   qt/moc_qvaluecombobox.cpp \
   qt/moc_recentrequeststablemodel.cpp \
   qt/moc_rpcconsole.cpp \
-  qt/moc_splashscreen.cpp \
   qt/moc_trafficgraphwidget.cpp \
-  qt/moc_transactiondesc.cpp \
   qt/moc_transactionfilterproxy.cpp \
   qt/moc_transactiontablemodel.cpp \
   qt/moc_utilitydialog.cpp \
   qt/moc_walletmodel.cpp \
   qt/dogecash/moc_loadingdialog.cpp \
-  qt/moc_zdogeccontroldialog.cpp \
   qt/dogecash/moc_pwidget.cpp \
+  qt/dogecash/moc_focuseddialog.cpp \
   qt/dogecash/moc_snackbar.cpp \
   qt/dogecash/moc_navmenuwidget.cpp \
   qt/dogecash/moc_lockunlock.cpp \
   qt/dogecash/moc_expandablebutton.cpp \
-  qt/dogecash/moc_proposalframe.cpp \
   qt/dogecash/moc_furabstractlistitemdelegate.cpp \
   qt/dogecash/moc_receivedialog.cpp \
+  qt/dogecash/moc_pfborderimage.cpp \
   qt/dogecash/moc_topbar.cpp \
   qt/dogecash/moc_txrow.cpp \
   qt/dogecash/moc_dashboardwidget.cpp \
-  qt/dogecash/moc_coincontroldogecwidget.cpp \
   qt/dogecash/moc_addresslabelrow.cpp \
   qt/dogecash/moc_contactdropdownrow.cpp \
   qt/dogecash/moc_mninfodialog.cpp \
   qt/dogecash/moc_optionbutton.cpp \
-  qt/dogecash/moc_governancepage.cpp \
   qt/dogecash/moc_coldstakingmodel.cpp \
   qt/dogecash/moc_mnmodel.cpp \
   qt/dogecash/moc_masternodewizarddialog.cpp \
@@ -174,7 +128,7 @@ QT_MOC_CPP = \
   qt/dogecash/moc_sendchangeaddressdialog.cpp \
   qt/dogecash/moc_sendconfirmdialog.cpp \
   qt/dogecash/moc_sendcustomfeedialog.cpp \
-  qt/dogecash/moc_sendchangeaddressdialog.cpp \
+  qt/dogecash/moc_sendmemodialog.cpp \
   qt/dogecash/moc_sendmultirow.cpp \
   qt/dogecash/moc_send.cpp \
   qt/dogecash/moc_addnewaddressdialog.cpp \
@@ -184,8 +138,6 @@ QT_MOC_CPP = \
   qt/dogecash/moc_tooltipmenu.cpp \
   qt/dogecash/moc_addresseswidget.cpp \
   qt/dogecash/moc_defaultdialog.cpp \
-  qt/dogecash/moc_denomgenerationdialog.cpp \
-  qt/dogecash/moc_privacywidget.cpp \
   qt/dogecash/moc_coldstakingwidget.cpp \
   qt/dogecash/settings/moc_settingsbackupwallet.cpp \
   qt/dogecash/settings/moc_settingsexportcsv.cpp \
@@ -210,7 +162,6 @@ BITCOIN_MM = \
 
 QT_MOC = \
   qt/dogecash.moc \
-  qt/bitcoinamountfield.moc \
   qt/intro.moc \
   qt/rpcconsole.moc \
   qt/dogecash/settings/moc_settingsconsolewidget.cpp
@@ -230,10 +181,8 @@ BITCOIN_QT_H = \
   qt/askpassphrasedialog.h \
   qt/bantablemodel.h \
   qt/bitcoinaddressvalidator.h \
-  qt/bitcoinamountfield.h \
   qt/dogecash/dogecashgui.h \
   qt/bitcoinunits.h \
-  qt/blockexplorer.h \
   qt/clientmodel.h \
   qt/coincontroldialog.h \
   qt/coincontroltreewidget.h \
@@ -251,16 +200,13 @@ BITCOIN_QT_H = \
   qt/optionsmodel.h \
   qt/paymentrequestplus.h \
   qt/paymentserver.h \
-  qt/dogecash/proposaldialog.h \
   qt/peertablemodel.h \
   qt/platformstyle.h \
   qt/qvalidatedlineedit.h \
   qt/qvaluecombobox.h \
   qt/recentrequeststablemodel.h \
   qt/rpcconsole.h \
-  qt/splashscreen.h \
   qt/trafficgraphwidget.h \
-  qt/transactiondesc.h \
   qt/transactionfilterproxy.h \
   qt/transactionrecord.h \
   qt/transactiontablemodel.h \
@@ -268,10 +214,11 @@ BITCOIN_QT_H = \
   qt/walletmodel.h \
   qt/walletmodeltransaction.h \
   qt/dogecash/prunnable.h \
+  qt/dogecash/pfborderimage.h \
   qt/dogecash/loadingdialog.h \
   qt/winshutdownmonitor.h \
-  qt/zdogeccontroldialog.h \
   qt/dogecash/pwidget.h \
+  qt/dogecash/focuseddialog.h \
   qt/dogecash/guitransactionsutils.h \
   qt/dogecash/snackbar.h \
   qt/dogecash/navmenuwidget.h \
@@ -282,17 +229,15 @@ BITCOIN_QT_H = \
   qt/dogecash/txviewholder.h \
   qt/dogecash/qtutils.h \
   qt/dogecash/expandablebutton.h \
+  qt/dogecash/balancebubble.h \
   qt/dogecash/topbar.h \
   qt/dogecash/txrow.h \
   qt/dogecash/addressholder.h \
   qt/dogecash/addressfilterproxymodel.h \
   qt/dogecash/dashboardwidget.h \
-  qt/dogecash/coincontroldogecwidget.h \
   qt/dogecash/addresslabelrow.h \
   qt/dogecash/contactdropdownrow.h \
   qt/dogecash/mninfodialog.h \
-  qt/dogecash/proposalframe.h \
-  qt/dogecash/governancepage.h \
   qt/dogecash/optionbutton.h \
   qt/dogecash/coldstakingmodel.h \
   qt/dogecash/mnmodel.h \
@@ -305,7 +250,7 @@ BITCOIN_QT_H = \
   qt/dogecash/sendchangeaddressdialog.h \
   qt/dogecash/sendconfirmdialog.h \
   qt/dogecash/sendcustomfeedialog.h \
-  qt/dogecash/sendchangeaddressdialog.h \
+  qt/dogecash/sendmemodialog.h \
   qt/dogecash/sendmultirow.h \
   qt/dogecash/send.h \
   qt/dogecash/addnewaddressdialog.h \
@@ -315,8 +260,6 @@ BITCOIN_QT_H = \
   qt/dogecash/tooltipmenu.h \
   qt/dogecash/addresseswidget.h \
   qt/dogecash/defaultdialog.h \
-  qt/dogecash/denomgenerationdialog.h \
-  qt/dogecash/privacywidget.h \
   qt/dogecash/coldstakingwidget.h \
   qt/dogecash/settings/settingsbackupwallet.h \
   qt/dogecash/settings/settingsexportcsv.h \
@@ -336,78 +279,18 @@ BITCOIN_QT_H = \
   qt/dogecash/splash.h
 
 RES_ICONS = \
-  qt/res/icons/add.png \
-  qt/res/icons/address-book.png \
-  qt/res/icons/automint_active.png \
-  qt/res/icons/automint_inactive.png \
   qt/res/icons/bitcoin.ico \
   qt/res/icons/bitcoin.png \
   qt/res/icons/bitcoin_testnet.ico \
   qt/res/icons/bitcoin_testnet.png \
   qt/res/icons/bitcoin_regtest.png \
-  qt/res/icons/browse.png \
-  qt/res/icons/clock1.png \
-  qt/res/icons/clock2.png \
-  qt/res/icons/clock3.png \
-  qt/res/icons/clock4.png \
-  qt/res/icons/clock5.png \
-  qt/res/icons/configure.png \
-  qt/res/icons/connect0_16.png \
-  qt/res/icons/connect1_16.png \
-  qt/res/icons/connect2_16.png \
-  qt/res/icons/connect3_16.png \
-  qt/res/icons/connect4_16.png \
-  qt/res/icons/debugwindow.png \
-  qt/res/icons/edit.png \
-  qt/res/icons/editcopy.png \
-  qt/res/icons/editpaste.png \
-  qt/res/icons/explorer.png \
-  qt/res/icons/export.png \
-  qt/res/icons/eye.png \
-  qt/res/icons/eye_minus.png \
-  qt/res/icons/eye_plus.png \
-  qt/res/icons/filesave.png \
-  qt/res/icons/history.png \
-  qt/res/icons/key.png \
   qt/res/icons/lock_closed.png \
   qt/res/icons/lock_open.png \
-  qt/res/icons/masternodes.png \
-  qt/res/icons/onion.png \
   qt/res/icons/overview.png \
-  qt/res/icons/qrcode.png \
-  qt/res/icons/quit.png \
-  qt/res/icons/receive.png \
-  qt/res/icons/receive_dark.png \
-  qt/res/icons/privacy.png \
-  qt/res/icons/remove.png \
-  qt/res/icons/send.png \
-  qt/res/icons/send_dark.png \
-  qt/res/icons/governance.png \
-  qt/res/icons/governance_dark.png \
-  qt/res/icons/staking_active.png \
-  qt/res/icons/staking_inactive.png \
-  qt/res/icons/synced.png \
-  qt/res/icons/trade.png \
-  qt/res/icons/transaction0.png \
-  qt/res/icons/transaction2.png \
-  qt/res/icons/transaction_conflicted.png \
-  qt/res/icons/tx_inout.png \
-  qt/res/icons/tx_input.png \
-  qt/res/icons/tx_output.png \
-  qt/res/icons/tx_mined.png \
   qt/res/icons/ic-transaction-received.svg \
   qt/res/icons/ic-transaction-mint.svg \
   qt/res/icons/ic-transaction-sent.svg \
   qt/res/icons/ic-transaction-staked.svg \
-  qt/res/icons/unit_dogecash.png \
-  qt/res/icons/unit_mdogecash.png \
-  qt/res/icons/unit_udogecash.png \
-  qt/res/icons/unit_tdogecash.png \
-  qt/res/icons/unit_tmdogecash.png \
-  qt/res/icons/unit_tudogecash.png \
-  qt/res/icons/yesvote.png \
-  qt/res/icons/novote.png \
-  qt/res/icons/abstainvote.png \
   qt/dogecash/res/img/bg-dashboard-banner.png \
   qt/dogecash/res/img/bg-multi-number-dark.svg \
   qt/dogecash/res/img/ic-check-locked.svg \
@@ -427,11 +310,8 @@ RES_ICONS = \
   qt/dogecash/res/img/ic-check-peers-off.svg \
   qt/dogecash/res/img/ic-nav-dashboard.svg \
   qt/dogecash/res/img/ic-wallet-status-unlocked.svg \
-  qt/dogecash/res/img/ic-wallet-hd-enabled.svg \
-  qt/dogecash/res/img/ic-wallet-hd-disabled.svg \
   qt/dogecash/res/img/ic-check-peers.svg \
   qt/dogecash/res/img/ic-nav-master-active.svg \
-  qt/dogecash/res/img/ic-nav-governance-active.svg \
   qt/dogecash/res/img/ic-watch-password-white.svg \
   qt/dogecash/res/img/bg-welcome-container.jpg \
   qt/dogecash/res/img/bg-welcome-container.png \
@@ -440,7 +320,6 @@ RES_ICONS = \
   qt/dogecash/res/img/bg-welcome-container@3x.png \
   qt/dogecash/res/img/ic-check-staking-off.svg \
   qt/dogecash/res/img/ic-nav-master-hover.svg \
-  qt/dogecash/res/img/ic-nav-governance-hover.svg \
   qt/dogecash/res/img/ic-watch-password.svg \
   qt/dogecash/res/img/bg-welcome.jpg \
   qt/dogecash/res/img/bg-welcome.svg \
@@ -449,7 +328,6 @@ RES_ICONS = \
   qt/dogecash/res/img/bg-welcome.png \
   qt/dogecash/res/img/ic-check-staking.svg \
   qt/dogecash/res/img/ic-nav-master.svg \
-  qt/dogecash/res/img/ic-nav-governance.svg \
   qt/dogecash/res/img/img-dashboard-banner.jpg \
   qt/dogecash/res/img/btn-radio-active.svg \
   qt/dogecash/res/img/ic-check-sync-off.svg \
@@ -489,6 +367,7 @@ RES_ICONS = \
   qt/dogecash/res/img/img-empty-dark-transactions.svg \
   qt/dogecash/res/img/ic-address-book-white.svg \
   qt/dogecash/res/img/ic-chevron-right.svg \
+  qt/dogecash/res/img/ic-chevron-right-liliac.svg \
   qt/dogecash/res/img/ic-nav-send.svg \
   qt/dogecash/res/img/img-empty-error.svg \
   qt/dogecash/res/img/ic-address-book.svg \
@@ -510,7 +389,7 @@ RES_ICONS = \
   qt/dogecash/res/img/ic-radio-liliac-on.svg \
   qt/dogecash/res/img/img-empty-staking-off.svg \
   qt/dogecash/res/img/ic-arrow-drop-down.svg \
-  qt/dogecash/res/img/ic-coin-dogec.svg \
+  qt/dogecash/res/img/ic-coin-dogecash.svg \
   qt/dogecash/res/img/ic-receive-off.svg \
   qt/dogecash/res/img/img-empty-staking-on.svg \
   qt/dogecash/res/img/ic-arrow-drop-up-white.svg \
@@ -569,6 +448,8 @@ RES_ICONS = \
   qt/dogecash/res/img/dark/ic-transaction-cs-contract-inactive.svg \
   qt/dogecash/res/img/img-qr.svg \
   qt/dogecash/res/img/ic-check-connect-off.svg \
+  qt/dogecash/res/img/ic-check-tor-off.svg \
+  qt/dogecash/res/img/ic-check-tor.svg \
   qt/dogecash/res/img/ic-label.svg \
   qt/dogecash/res/img/ic-transaction-received.svg \
   qt/dogecash/res/img/dark/ic-transaction-received.svg \
@@ -603,7 +484,6 @@ RES_ICONS = \
   qt/dogecash/res/img/ic-arrow-drop-up-purple.svg \
   qt/dogecash/res/img/ic-check-liliac-indeterminate.svg \
   qt/dogecash/res/img/ic-check-box-liliac-indeterminate.svg \
-  qt/dogecash/res/img/ic-check-box-indeterminate.svg \
   qt/dogecash/res/img/ic-transaction-stake-delegated.svg \
   qt/dogecash/res/img/ic-transaction-stake-delegated-inactive.svg \
   qt/dogecash/res/img/ic-transaction-stake-hot.svg \
@@ -614,18 +494,17 @@ RES_ICONS = \
   qt/dogecash/res/img/dark/ic-transaction-stake-delegated-inactive.svg \
   qt/dogecash/res/img/ic-transaction-cs-contract.svg \
   qt/dogecash/res/img/ic-transaction-cs-contract-inactive.svg \
+  qt/dogecash/res/img/ic-check-box-indeterminate.svg \
+  qt/dogecash/res/img/ic-information.svg \
+  qt/dogecash/res/img/ic-information-hover.svg \
   qt/dogecash/res/img/ani-loading-dark.gif \
   qt/dogecash/res/img/ani-loading.gif
-
-
 
 BITCOIN_QT_BASE_CPP = \
   qt/bantablemodel.cpp \
   qt/bitcoinaddressvalidator.cpp \
-  qt/bitcoinamountfield.cpp \
   qt/dogecash/dogecashgui.cpp \
   qt/bitcoinunits.cpp \
-  qt/blockexplorer.cpp \
   qt/clientmodel.cpp \
   qt/csvmodelwriter.cpp \
   qt/guiutil.cpp \
@@ -634,13 +513,11 @@ BITCOIN_QT_BASE_CPP = \
   qt/notificator.cpp \
   qt/optionsdialog.cpp \
   qt/optionsmodel.cpp \
-  qt/dogecash/proposaldialog.cpp \
   qt/peertablemodel.cpp \
   qt/platformstyle.cpp \
   qt/qvalidatedlineedit.cpp \
   qt/qvaluecombobox.cpp \
   qt/rpcconsole.cpp \
-  qt/splashscreen.cpp \
   qt/trafficgraphwidget.cpp \
   qt/utilitydialog.cpp
 
@@ -650,24 +527,21 @@ BITCOIN_QT_WALLET_CPP = \
   qt/addressbookpage.cpp \
   qt/addresstablemodel.cpp \
   qt/askpassphrasedialog.cpp \
-  qt/blockexplorer.cpp \
   qt/coincontroldialog.cpp \
   qt/coincontroltreewidget.cpp \
   qt/editaddressdialog.cpp \
   qt/openuridialog.cpp \
   qt/paymentrequestplus.cpp \
   qt/paymentserver.cpp \
-  qt/dogecash/proposaldialog.cpp \
   qt/recentrequeststablemodel.cpp \
-  qt/transactiondesc.cpp \
   qt/transactionfilterproxy.cpp \
   qt/transactionrecord.cpp \
   qt/transactiontablemodel.cpp \
   qt/walletmodel.cpp \
   qt/walletmodeltransaction.cpp \
   qt/dogecash/loadingdialog.cpp \
-  qt/zdogeccontroldialog.cpp \
   qt/dogecash/pwidget.cpp \
+  qt/dogecash/focuseddialog.cpp \
   qt/dogecash/guitransactionsutils.cpp \
   qt/dogecash/snackbar.cpp \
   qt/dogecash/navmenuwidget.cpp \
@@ -677,16 +551,14 @@ BITCOIN_QT_WALLET_CPP = \
   qt/dogecash/txviewholder.cpp \
   qt/dogecash/qtutils.cpp \
   qt/dogecash/expandablebutton.cpp \
-  qt/dogecash/governancepage.cpp \
+  qt/dogecash/balancebubble.cpp \
   qt/dogecash/topbar.cpp \
   qt/dogecash/txrow.cpp \
   qt/dogecash/addressholder.cpp \
   qt/dogecash/addressfilterproxymodel.cpp \
   qt/dogecash/dashboardwidget.cpp \
-  qt/dogecash/coincontroldogecwidget.cpp \
   qt/dogecash/addresslabelrow.cpp \
   qt/dogecash/contactdropdownrow.cpp \
-  qt/dogecash/proposalframe.cpp \
   qt/dogecash/contactsdropdown.cpp \
   qt/dogecash/optionbutton.cpp \
   qt/dogecash/mninfodialog.cpp \
@@ -700,7 +572,7 @@ BITCOIN_QT_WALLET_CPP = \
   qt/dogecash/sendchangeaddressdialog.cpp \
   qt/dogecash/sendconfirmdialog.cpp \
   qt/dogecash/sendcustomfeedialog.cpp \
-  qt/dogecash/sendchangeaddressdialog.cpp \
+  qt/dogecash/sendmemodialog.cpp \
   qt/dogecash/sendmultirow.cpp \
   qt/dogecash/send.cpp \
   qt/dogecash/addnewaddressdialog.cpp \
@@ -710,8 +582,6 @@ BITCOIN_QT_WALLET_CPP = \
   qt/dogecash/tooltipmenu.cpp \
   qt/dogecash/addresseswidget.cpp \
   qt/dogecash/defaultdialog.cpp \
-  qt/dogecash/denomgenerationdialog.cpp \
-  qt/dogecash/privacywidget.cpp \
   qt/dogecash/coldstakingwidget.cpp \
   qt/dogecash/settings/settingsbackupwallet.cpp \
   qt/dogecash/settings/settingsexportcsv.cpp \
@@ -743,28 +613,17 @@ RES_IMAGES = \
   qt/res/images/about.png \
   qt/res/images/splash.png \
   qt/res/images/splash_testnet.png \
-  qt/res/images/splash_regtest.png \
-  qt/res/images/dogecash_logo_horizontal.png \
-  qt/res/images/downArrow_dark.png \
-  qt/res/images/downArrow_small_dark.png \
-  qt/res/images/downArrow_small.png \
-  qt/res/images/upArrow_small_dark.png \
-  qt/res/images/upArrow_small.png \
-  qt/res/images/leftArrow_small_dark.png \
-  qt/res/images/rightArrow_small_dark.png \
-  qt/res/images/qtreeview_selected.png
+  qt/res/images/splash_regtest.png
 
 RES_CSS = \
   qt/res/css/default.css \
   qt/dogecash/res/css/style_dark.css \
   qt/dogecash/res/css/style_light.css
 
-RES_MOVIES = $(wildcard $(srcdir)/qt/res/movies/spinner-*.png)
-
 BITCOIN_RC = qt/res/dogecash-qt-res.rc
 
 BITCOIN_QT_INCLUDES = -I$(builddir)/qt -I$(srcdir)/qt -I$(srcdir)/qt/forms \
-  -I$(builddir)/qt/forms
+  -I$(builddir)/qt/forms -DQT_NO_KEYWORDS
 
 qt_libbitcoinqt_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BITCOIN_QT_INCLUDES) \
   $(QT_INCLUDES) $(QT_DBUS_INCLUDES) $(PROTOBUF_CFLAGS) $(QR_CFLAGS) $(SVG_CFLAGS) $(CHARTS_CFLAGS)
@@ -772,7 +631,7 @@ qt_libbitcoinqt_a_CXXFLAGS = $(AM_CXXFLAGS) $(QT_PIE_FLAGS)
 qt_libbitcoinqt_a_OBJCXXFLAGS = $(AM_OBJCXXFLAGS) $(QT_PIE_FLAGS)
 
 qt_libbitcoinqt_a_SOURCES = $(BITCOIN_QT_CPP) $(BITCOIN_QT_H) $(QT_FORMS_UI) \
-  $(QT_QRC) $(QT_QRC_LOCALE) $(QT_TS) $(PROTOBUF_PROTO) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS) $(RES_MOVIES)
+  $(QT_QRC) $(QT_QRC_LOCALE) $(QT_TS) $(PROTOBUF_PROTO) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS)
 
 nodist_qt_libbitcoinqt_a_SOURCES = $(QT_MOC_CPP) $(QT_MOC) $(PROTOBUF_CC) \
   $(PROTOBUF_H) $(QT_QRC_CPP) $(QT_QRC_LOCALE_CPP)
@@ -809,7 +668,7 @@ endif
 if ENABLE_ZMQ
 qt_dogecash_qt_LDADD += $(LIBBITCOIN_ZMQ) $(ZMQ_LIBS)
 endif
-qt_dogecash_qt_LDADD += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) $(LIBBITCOIN_ZEROCOIN) $(LIBLEVELDB) $(LIBLEVELDB_SSE42) $(LIBMEMENV) \
+qt_dogecash_qt_LDADD += $(LIBBITCOIN_CLI) $(LIBBITCOIN_COMMON) $(LIBBITCOIN_UTIL) $(LIBBITCOIN_CRYPTO) $(LIBUNIVALUE) $(LIBBITCOIN_ZEROCOIN) $(LIBSAPLING) $(LIBRUSTZCASH) $(LIBZCASH_LIBS) $(LIBLEVELDB) $(LIBLEVELDB_SSE42) $(LIBMEMENV) \
   $(BOOST_LIBS) $(QT_LIBS) $(QT_DBUS_LIBS) $(QR_LIBS) $(PROTOBUF_LIBS) $(SVG_LIBS) $(CHARTS_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(LIBSECP256K1) \
   $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS)
 qt_dogecash_qt_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(QT_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
@@ -835,12 +694,12 @@ $(QT_QRC_LOCALE_CPP): $(QT_QRC_LOCALE) $(QT_QM)
 	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 	@rm $(@D)/temp_$(<F)
 
-$(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS) $(RES_MOVIES) $(PROTOBUF_H)
+$(QT_QRC_CPP): $(QT_QRC) $(QT_FORMS_H) $(RES_ICONS) $(RES_IMAGES) $(RES_CSS) $(PROTOBUF_H)
 	@test -f $(RCC)
 	$(AM_V_GEN) QT_SELECT=$(QT_SELECT) $(RCC) -name dogecash $< | \
 	  $(SED) -e '/^\*\*.*Created:/d' -e '/^\*\*.*by:/d' > $@
 
-CLEAN_QT = $(nodist_qt_libbitcoinqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno qt/temp_dogecash_locale.qrc
+CLEAN_QT = $(nodist_qt_libbitcoinqt_a_SOURCES) $(QT_QM) $(QT_FORMS_H) qt/*.gcda qt/*.gcno qt/dogecash/*.gcda qt/dogecash/*.gcno qt/dogecash/settings/*.gcda qt/dogecash/settings/*.gcno qt/temp_dogecash_locale.qrc
 
 CLEANFILES += $(CLEAN_QT)
 

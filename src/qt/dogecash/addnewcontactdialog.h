@@ -1,18 +1,21 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef ADDNEWCONTACTDIALOG_H
 #define ADDNEWCONTACTDIALOG_H
 
-#include <QDialog>
+#include "qt/dogecash/focuseddialog.h"
 
 namespace Ui {
 class AddNewContactDialog;
 }
 
-class AddNewContactDialog : public QDialog
+class AddNewContactDialog : public FocusedDialog
 {
     Q_OBJECT
 
@@ -27,8 +30,8 @@ public:
 
     bool res = false;
 
-public slots:
-    void ok();
+public Q_SLOTS:
+    void accept() override;
 private:
     Ui::AddNewContactDialog *ui;
     const char* message = nullptr;

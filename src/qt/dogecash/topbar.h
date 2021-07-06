@@ -1,5 +1,6 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2017-2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -12,8 +13,9 @@
 #include "amount.h"
 #include <QTimer>
 #include <QProgressBar>
-#include "rpc/misc.h"
-class DogeCashGUI;
+
+class BalanceBubble;
+class DOGECGUI;
 class WalletModel;
 class ClientModel;
 
@@ -26,7 +28,7 @@ class TopBar : public PWidget
     Q_OBJECT
 
 public:
-    explicit TopBar(DogeCashGUI* _mainWindow, QWidget *parent = nullptr);
+    explicit TopBar(DOGECGUI* _mainWindow, QWidget *parent = nullptr);
     ~TopBar();
 
     void showTop();
@@ -37,39 +39,41 @@ public:
 
     void openPassPhraseDialog(AskPassphraseDialog::Mode mode, AskPassphraseDialog::Context ctx);
     void encryptWallet();
+
+    void run(int type) override;
+    void onError(QString error, int type) override;
     void unlockWallet();
-public slots:
-    void updateBalances(const CAmount& balance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
-                        const CAmount& zerocoinBalance, const CAmount& unconfirmedZerocoinBalance, const CAmount& immatureZerocoinBalance,
-                        const CAmount& watchOnlyBalance, const CAmount& watchUnconfBalance, const CAmount& watchImmatureBalance,
-                        const CAmount& delegatedBalance, const CAmount& coldStakedBalance);
+
+public Q_SLOTS:
+    void updateBalances(const interfaces::WalletBalances& newBalance);
     void updateDisplayUnit();
 
     void setNumConnections(int count);
     void setNumBlocks(int count);
-    void updateAutoMintStatus();
+    void setStakingStatusActive(bool fActive);
     void updateStakingStatus();
+    void updateHDState(const bool& upgraded, const QString& upgradeError);
+    void showUpgradeDialog(const QString& message);
 
-signals:
+Q_SIGNALS:
     void themeChanged(bool isLight);
     void walletSynced(bool isSync);
     void onShowHideColdStakingChanged(bool show);
-    /** HD-Enabled status of wallet changed (only possible during startup) */
-    void hdEnabledStatusChanged(bool hdEnabled);
+
 protected:
     void resizeEvent(QResizeEvent *event) override;
-private slots:
+private Q_SLOTS:
     void onBtnReceiveClicked();
+    void onBtnBalanceInfoClicked();
     void onThemeClicked();
     void onBtnLockClicked();
     void lockDropdownMouseLeave();
     void lockDropdownClicked(const StateClicked&);
     void refreshStatus();
-    void refreshProgressBarSize();
-    void expandSync();
     void openLockUnlock();
     void onColdStakingClicked();
-    void setHDStatus(bool hdEnabled);
+    void refreshProgressBarSize();
+    void expandSync();
 private:
     Ui::TopBar *ui;
     LockUnlock *lockUnlockWidget = nullptr;
@@ -79,9 +83,11 @@ private:
     QTimer* timerStakingIcon = nullptr;
     bool isInitializing = true;
 
-    // pointer to global unlock context (for multithread unlock/relock)
-    WalletModel::UnlockContext* pctx = nullptr;
+    // info popup
+    BalanceBubble* balanceBubble = nullptr;
 
+    void updateTorIcon();
+    void connectUpgradeBtnAndDialogTimer(const QString& message);
 };
 
 #endif // TOPBAR_H

@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -22,7 +25,7 @@ public:
 
     void updateView(QString address, QString label, QString status, bool wasCollateralAccepted);
 
-signals:
+Q_SIGNALS:
     void onMenuClicked();
 private:
     Ui::MNRow *ui;

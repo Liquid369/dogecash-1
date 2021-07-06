@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string></string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -30,7 +30,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="QWidget" name="frame_2" native="true">
+    <widget class="PFBorderImage" name="frame_2" native="true">
      <layout class="QVBoxLayout" name="verticalLayout_1">
       <property name="spacing">
        <number>0</number>
@@ -237,6 +237,9 @@
                       <height>22</height>
                      </size>
                     </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::NoFocus</enum>
+                    </property>
                     <property name="text">
                      <string>1</string>
                     </property>
@@ -264,7 +267,7 @@
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>16777215</width>
+                   <width>140</width>
                    <height>1</height>
                   </size>
                  </property>
@@ -320,6 +323,9 @@
                       <height>22</height>
                      </size>
                     </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::NoFocus</enum>
+                    </property>
                     <property name="text">
                      <string>2</string>
                     </property>
@@ -347,7 +353,7 @@
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>16777215</width>
+                   <width>140</width>
                    <height>1</height>
                   </size>
                  </property>
@@ -403,6 +409,9 @@
                       <height>22</height>
                      </size>
                     </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::NoFocus</enum>
+                    </property>
                     <property name="text">
                      <string>3</string>
                     </property>
@@ -430,7 +439,7 @@
                  </property>
                  <property name="maximumSize">
                   <size>
-                   <width>16777215</width>
+                   <width>160</width>
                    <height>1</height>
                   </size>
                  </property>
@@ -485,6 +494,9 @@
                       <width>22</width>
                       <height>22</height>
                      </size>
+                    </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::NoFocus</enum>
                     </property>
                     <property name="text">
                      <string>4</string>
@@ -597,6 +609,9 @@
                       <height>16777215</height>
                      </size>
                     </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::NoFocus</enum>
+                    </property>
                     <property name="text">
                      <string>Language</string>
                     </property>
@@ -638,6 +653,9 @@
                       <height>16777215</height>
                      </size>
                     </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::NoFocus</enum>
+                    </property>
                     <property name="text">
                      <string>Welcome</string>
                     </property>
@@ -676,6 +694,9 @@
                       <height>16777215</height>
                      </size>
                     </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::NoFocus</enum>
+                    </property>
                     <property name="text">
                      <string>Privacy</string>
                     </property>
@@ -694,7 +715,7 @@
                     </property>
                     <property name="sizeHint" stdset="0">
                      <size>
-                      <width>40</width>
+                      <width>20</width>
                       <height>20</height>
                      </size>
                     </property>
@@ -704,7 +725,7 @@
                    <widget class="QPushButton" name="pushName4">
                     <property name="minimumSize">
                      <size>
-                      <width>110</width>
+                      <width>150</width>
                       <height>0</height>
                      </size>
                     </property>
@@ -713,6 +734,9 @@
                       <width>100</width>
                       <height>16777215</height>
                      </size>
+                    </property>
+                    <property name="focusPolicy">
+                     <enum>Qt::NoFocus</enum>
                     </property>
                     <property name="text">
                      <string>Masternodes</string>
@@ -735,7 +759,7 @@
                     </property>
                     <property name="sizeHint" stdset="0">
                      <size>
-                      <width>96</width>
+                      <width>76</width>
                       <height>20</height>
                      </size>
                     </property>
@@ -939,7 +963,7 @@ DogeCash Core Wallet</string>
                    <item alignment="Qt::AlignHCenter">
                     <widget class="QLabel" name="labelMessage2">
                      <property name="text">
-                      <string>DogeCash is the world’s most advanced privacy-enabled Proof of Stake blockchain technology, all developed by a team of highly experienced developers and cryptographers.</string>
+                      <string>DogeCash is the world’s most innovative Proof of Stake blockchain based technology. Developed by a team of highly experienced developers and cryptographers.</string>
                      </property>
                      <property name="alignment">
                       <set>Qt::AlignHCenter|Qt::AlignTop</set>
@@ -1032,7 +1056,7 @@ DogeCash Core Wallet</string>
                 <item>
                  <widget class="QLabel" name="labelMessage3">
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;As our manifesto says: Privacy is a non-negotiable basic human right; it grants users the freedom the share their data whenever and with whomever they want - DogeCash believes in self sovereignty&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;As our manifesto says: Privacy is a non-negotiable basic human right; it grants users the freedom to share their data whenever and with whomever they want - DogeCash believes in self sovereignty.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignHCenter|Qt::AlignTop</set>
@@ -1115,7 +1139,7 @@ DogeCash Core Wallet</string>
                 <item>
                  <widget class="QLabel" name="labelMessage4">
                   <property name="text">
-                   <string>The masternode network is DogeCash's second layer network on top of the blockchain that enables our DAO to provide decentralized governance, treasury, and SwiftX transactions.</string>
+                   <string>The masternode network is DOGEC's second layer network on top of the blockchain that enables our DAO to provide decentralized governance and a treasury.</string>
                   </property>
                   <property name="alignment">
                    <set>Qt::AlignCenter</set>
@@ -1153,6 +1177,14 @@ DogeCash Core Wallet</string>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PFBorderImage</class>
+   <extends>QFrame</extends>
+   <header>qt/dogecash/pfborderimage.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -1,5 +1,6 @@
-// Copyright (c) 2019 The DogeCash developers
-// Copyright (c) 2019 The PIVX developers
+// Copyright (c) 2017-2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -20,7 +21,7 @@
 #include "qt/dogecash/settings/settingsinformationwidget.h"
 #include "qt/dogecash/settings/settingsconsolewidget.h"
 
-class DogeCashGUI;
+class DOGECGUI;
 
 QT_BEGIN_NAMESPACE
 class QDataWidgetMapper;
@@ -35,19 +36,21 @@ class SettingsWidget : public PWidget
     Q_OBJECT
 
 public:
-    explicit SettingsWidget(DogeCashGUI* parent);
+    explicit SettingsWidget(DOGECGUI* parent);
     ~SettingsWidget();
 
     void loadClientModel() override;
     void loadWalletModel() override;
     void setMapper();
     void showDebugConsole();
+    void showInformation();
+    void openNetworkMonitor();
 
-signals:
+Q_SIGNALS:
     /** Get restart command-line parameters and handle restart */
     void handleRestart(QStringList args);
 
-private slots:
+private Q_SLOTS:
     // File
     void onFileClicked();
     void onBackupWalletClicked();
@@ -76,30 +79,34 @@ private slots:
     // Help
     void onHelpClicked();
     void onAboutClicked();
-
     void onResetAction();
     void onSaveOptionsClicked();
+
 private:
-    Ui::SettingsWidget *ui;
+    Ui::SettingsWidget *ui{nullptr};
+    int navAreaBaseHeight{0};
 
-    SettingsBackupWallet *settingsBackupWallet;
-    SettingsExportCSV *settingsExportCsvWidget;
-    SettingsBitToolWidget *settingsBitToolWidget;
-    SettingsSignMessageWidgets *settingsSingMessageWidgets;
-    SettingsWalletRepairWidget *settingsWalletRepairWidget;
-    SettingsWalletOptionsWidget *settingsWalletOptionsWidget;
-    SettingsMainOptionsWidget *settingsMainOptionsWidget;
-    SettingsDisplayOptionsWidget *settingsDisplayOptionsWidget;
-    SettingsMultisendWidget *settingsMultisendWidget;
-    SettingsInformationWidget *settingsInformationWidget;
-    SettingsConsoleWidget *settingsConsoleWidget;
+    SettingsBackupWallet *settingsBackupWallet{nullptr};
+    SettingsExportCSV *settingsExportCsvWidget{nullptr};
+    SettingsBitToolWidget *settingsBitToolWidget{nullptr};
+    SettingsSignMessageWidgets *settingsSingMessageWidgets{nullptr};
+    SettingsWalletRepairWidget *settingsWalletRepairWidget{nullptr};
+    SettingsWalletOptionsWidget *settingsWalletOptionsWidget{nullptr};
+    SettingsMainOptionsWidget *settingsMainOptionsWidget{nullptr};
+    SettingsDisplayOptionsWidget *settingsDisplayOptionsWidget{nullptr};
+    SettingsMultisendWidget *settingsMultisendWidget{nullptr};
+    SettingsInformationWidget *settingsInformationWidget{nullptr};
+    SettingsConsoleWidget *settingsConsoleWidget{nullptr};
 
-    QDataWidgetMapper* mapper;
+    QDataWidgetMapper* mapper{nullptr};
 
     QList<QPushButton*> options;
+    // Map of: menu button -> sub menu items
+    QMap <QPushButton*, QWidget*> menus;
 
     void selectOption(QPushButton* option);
-    void openStandardDialog(QString title = "", QString body = "", QString okBtn = "OK", QString cancelBtn = "");
+    bool openStandardDialog(const QString& title = "", const QString& body = "", const QString& okBtn = "OK", const QString& cancelBtn = "");
+    void selectMenu(QPushButton* btn);
 };
 
 #endif // SETTINGSWIDGET_H

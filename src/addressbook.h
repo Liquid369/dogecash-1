@@ -1,5 +1,8 @@
-// Copyright (c) 2019 The PIVX developers
-// Copyright (c) 2019 The DogeCash developers
+// Copyright (c) 2019 The PIVX Developers
+// Copyright (c) 2020 The PIVX Developers
+// Copyright (c) 2020 The DogeCash Developers
+
+
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,8 +22,12 @@ namespace AddressBook {
         extern const std::string DELEGATOR;
         extern const std::string COLD_STAKING;
         extern const std::string COLD_STAKING_SEND;
+        extern const std::string SHIELDED_RECEIVE;
+        extern const std::string SHIELDED_SEND;
     }
+
     bool IsColdStakingPurpose(const std::string& purpose);
+    bool IsShieldedPurpose(const std::string& purpose);
 
 /** Address book data */
     class CAddressBookData {
@@ -39,6 +46,8 @@ namespace AddressBook {
         bool isSendColdStakingPurpose() const;
         bool isSendPurpose() const;
         bool isReceivePurpose() const;
+        bool isShieldedReceivePurpose() const;
+        bool isShielded() const;
     };
 
 }
